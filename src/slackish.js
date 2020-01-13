@@ -1,26 +1,36 @@
 const express = require('express')
 const socketio = require('socket.io')
+const configureApp = require('./config/app')
+const nss = require('./services/namespaces')
 
-const PORT = process.env.port || 9000
+const PORT = process.env.PORT || 9000
 
-const app = express()
+const app = configureApp(express())
 const server = app.listen(PORT, () => console.log(`listening on port ${PORT}`))
 const io = socketio(server)
 
-const namespaces = require('./services/namespaces')()
-namespaces.then(nss => console.log(nss))
+const namespaces = nss.namespaces()
 
-io.on('connect', (socket) => {
+/**
+ * Resolves when io namespaces have been configured.
+ */
+const ready = namespaces.then((namespaces) => {
+  namespaces.forEach((ns) => {
+    io.of(ns.endpoint).on('connect', (socket) => {
+      console.log(`${socket.id} has joined ${ns.title}`)
+    })
+  })
+})
+
+io.on('connect', async (socket) => {
+  await ready
   console.log('connected:', socket.id)
-  socket.emit('welcome', 'welcome to yet another chat server')
+
+  // Send namespace data to newly connected client.
+  const nsData = (await namespaces).map(({ img, endpoint }) => ({ img, endpoint }))
+  socket.emit('namespaces', nsData)
 
   socket.on('message', (msg) => io.emit('message', msg))
 
   socket.on('disconnect', () => console.log('disconnected:', socket.id))
 })
-
-io.of('admin').on('connect', (socket) => {
-  socket.emit('welcome', 'welcome to admin')
-})
-
-app.use(express.static(__dirname + '/public'))

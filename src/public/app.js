@@ -1,18 +1,38 @@
+'use strict'
+
+const ioHelpers = {
+  /**
+   * Return a namespace div from namespace display data.
+   *
+   * @param {(element: Element, ns: any) => void} cb
+   * @param {{img: string, endpoint: string}}  ns
+   */
+  nsToElement: (cb, ns) => {
+    const img = dom.createElement('img', { src: ns.img })
+    const div = dom.createElement('div', { class: 'namespace', ns: ns.endpoint }, [img])
+    cb(div, ns)
+    return div
+  }
+};
 
 (() => {
-  const rootSocket = io(location.href)
-  const adminSocket = io(location.href + 'admin')
+  const socket = io(location.href)
 
-  rootSocket.on('welcome', (msg) => {
-    console.log(msg)
-  })
+  // Listen for namespaces from the server.
+  socket.on('namespaces', (namespaces) => {
+    const nsElement = dom.empty('#namespaces')
+    /**
+     * Create a function that maps namespace data to dom elements and
+     * adds a click event listener to each one.
+     */
+    const nsToElement = ioHelpers.nsToElement.bind(null, (element, ns) => {
+      element.addEventListener('click', () => {
+        console.log('clicked namespace', ns.endpoint)
+      })
+    })
 
-  rootSocket.on('joined', (msg) => {
-    console.log(msg)
-  })
-
-  adminSocket.on('welcome', (msg) => {
-    console.log(msg)
+    // Append namespaces to the namespace dom element.
+    dom.append(nsElement, namespaces.map(nsToElement))
   })
 
   /**
@@ -45,15 +65,14 @@
     messages.appendChild(message)
   }
 
-  // document.querySelector('#message-form').addEventListener('submit', (event) => {
-  //   event.preventDefault()
-  //   const msg = input.value
-  //   if (msg.length > 0) {
-  //     input.value = ''
-  //     rootSocket.emit('message', msg)
-  //   }
-  // })
+  document.querySelector('#user-input').addEventListener('submit', (event) => {
+    event.preventDefault()
+    const msg = input.value
+    if (msg.length > 0) {
+      input.value = ''
+      socket.emit('message', msg)
+    }
+  })
 
-  rootSocket.on('message', postMessage)
-  adminSocket.on('message', postMsgToChannel.bind(null, 'admin'))
+  socket.on('message', postMessage)
 })()
