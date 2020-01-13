@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "client": "nodemon --watch index.js --watch src",
-    "server": "json-server --watch json-server/namespaces.json --port 9001",
+    "server": "json-server --watch data/namespaces.json --port 9001",
     "start": "concurrently --raw --kill-others 'npm run server' 'npm run client'"
   },
   "keywords": [],
