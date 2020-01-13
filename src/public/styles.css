@@ -3,19 +3,31 @@ body {
   color: white;
 }
 
-.namespaces {
+#namespaces {
   background-color: #282c34;
   min-height: 100vh;
   color: #ABB2BF;
   text-align: center;
 }
 
-.namespaces img {
+#namespaces img {
   margin-top: 10px;
   background-color: #ABB2BF;
   border-radius: 10px;
   cursor: pointer;
   width:45px;
+}
+
+#chat-panel {
+  background-color: #fff;
+  min-height: 100vh;
+  position: relative;
+  padding-top: 10px;
+}
+
+#chat-panel .curr-room-text {
+  color: #282c34;
+  font-size: 26px;
 }
 
 .room-list {
@@ -42,18 +54,6 @@ body {
   min-height: 100vh;
   color: #ABB2BF;
 
-}
-
-.chat-panel {
-  background-color: #fff;
-  min-height: 100vh;
-  position: relative;
-  padding-top: 10px;
-}
-
-.chat-panel .curr-room-text {
-  color: #282c34;
-  font-size: 26px;
 }
 
 .curr-room-num-users, .search {
