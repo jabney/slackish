@@ -1,0 +1,10 @@
+# System
+.DS_Store
+node_modules/
+
+# Visual Studio Code
+.vscode/
+
+# Temp
+temp/
+tmp/
