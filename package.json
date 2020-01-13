@@ -1,7 +1,7 @@
 {
   "name": "slackish",
   "version": "1.0.0",
-  "description": "A chat app that sort of looks like Slack",
+  "description": "A socket.io chat app that sort of looks like Slack",
   "main": "index.js",
   "scripts": {
     "client": "nodemon --watch index.js --watch src",
