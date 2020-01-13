@@ -2,14 +2,22 @@
 
 (() => {
   /**
+   * Find all nodes that match the given selector.
+   *
    * @param {string} selector
+   *
+   * @returns {NodeListOf<Element>}
    */
   function findAll(selector) {
     return document.querySelectorAll(selector)
   }
 
   /**
+   * Find the first node that matches the given selector.
+   *
    * @param {string} selector
+   *
+   * @returns {Element}
    */
   function findOne(selector) {
     return document.querySelector(selector)
@@ -21,6 +29,8 @@
    * @param {string} tag
    * @param {{[key: string]: string}} [attr]
    * @param {Element[]} [children]
+   *
+   * @returns {Element}
    */
   function createElement(tag, attr = {}, children = []) {
     // Crete the root element.
@@ -43,9 +53,12 @@
   }
 
   /**
+   * Append one or more children to a parent.
    *
-   * @param {string|Element} parent
+   * @param {string|Element} parent An element or selector.
    * @param {Element[]} children
+   *
+   * @returns {Element}
    */
   function append(parent, children) {
     const element = typeof parent === 'string' ? findOne(parent) : parent
@@ -59,7 +72,7 @@
   }
 
   /**
-   * @param {string|Element} parent
+   * @param {string|Element} parent An element or selector.
    */
   function empty(parent) {
     const element = typeof parent === 'string' ? findOne(parent) : parent
