@@ -26,8 +26,14 @@ io.on('connect', async (socket) => {
   await ready
   console.log('connected:', socket.id)
 
-  // Send namespace data to newly connected client.
-  const nsData = (await namespaces).map(({ img, endpoint }) => ({ img, endpoint }))
+  // Create namespace data for sending to the client.
+  const nsData = (await namespaces).map((ns) => ({
+    title: ns.title,
+    img: ns.img,
+    endpoint: ns.endpoint,
+  }))
+
+  // Send namespace data to newly-connected client.
   socket.emit('namespaces', nsData)
 
   socket.on('message', (msg) => io.emit('message', msg))
