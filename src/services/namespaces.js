@@ -39,4 +39,6 @@ async function namespaces() {
   })
 }
 
-module.exports = namespaces
+module.exports = {
+  namespaces
+}
