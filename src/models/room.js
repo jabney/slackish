@@ -18,12 +18,16 @@ class Room {
   }
 
   /**
+   * Add a message to the history.
    * @param {any} msg
    */
   addMessage(msg) {
     this.history.push(msg)
   }
 
+  /**
+   * Clear the message history.
+   */
   clearHistory() {
     this.history = []
   }
