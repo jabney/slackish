@@ -1,6 +1,37 @@
 'use strict'
 
 /**
+ *
+ * @param {string} roomTitle
+ */
+function ioJoinRoom(roomTitle) {
+  console.log('clicked room', roomTitle)
+}
+
+/**
+ * Handle namespace rooms list from server.
+ *
+ * @param {import('../../declarations').RoomData[]} rooms
+ */
+function ioOnRooms(rooms) {
+  const roomElement = dom.empty('#room-list')
+  /**
+   * Create a function that maps namespace data to dom elements and
+   * adds a click event listener to each one.
+   *
+   * @type {(room: import('../../declarations').RoomData) => Element}
+   */
+  const roomToElement = ioHelpers.roomToElement.bind(null, (element, room) => {
+    element.addEventListener('click', () => {
+      ioJoinRoom(room.title)
+    })
+  })
+
+  // Append namespaces to the namespace dom element.
+  dom.append(roomElement, rooms.map(roomToElement))
+}
+
+/**
  * Join the namespace indicated by the given endpoint.
  *
  * @param {string} endpoint
@@ -9,21 +40,7 @@ function ioJoinNs(endpoint) {
   const nsSocket = io(location.href + endpoint)
 
   // Listen for namespace rooms from the server.
-  nsSocket.on('rooms', (rooms) => {
-    const roomElement = dom.empty('#room-list')
-    /**
-     * Create a function that maps namespace data to dom elements and
-     * adds a click event listener to each one.
-     */
-    const roomToElement = ioHelpers.roomToElement.bind(null, (element, room) => {
-      element.addEventListener('click', () => {
-        console.log('clicked room', room.title)
-      })
-    })
-
-    // Append namespaces to the namespace dom element.
-    dom.append(roomElement, rooms.map(roomToElement))
-  })
+  nsSocket.on('rooms', ioOnRooms)
 
   return nsSocket
 }
