@@ -27,6 +27,7 @@ export interface DomLib {
 export interface DomHelpers {
   nsToElement(cb: (element: Element, ns: NsData) => void, ns: NsData): Element
   roomToElement(cb: (element: Element, room: RoomData) => void, room: RoomData): Element
+  appendMessage(element: Element, message: {[key: string]: any}): void
 }
 
 export interface IoHelpers {

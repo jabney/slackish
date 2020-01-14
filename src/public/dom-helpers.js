@@ -10,6 +10,17 @@
    */
 
   /**
+   * @param {number} epochSec
+   */
+  function getFmtTime(epochSec) {
+    const dt = new Date(epochSec)
+    const hours = dt.getHours()
+    const minutes = dt.getMinutes()
+    const amPm = hours > 12 ? 'pm' : 'am'
+    return `${hours}:${minutes} ${amPm}`
+  }
+
+  /**
    * Return a namespace div from namespace data.
    *
    * @param {(element: Element, ns: NsData) => void} cb
@@ -37,11 +48,36 @@
   }
 
   /**
+   *
+   * @param {Element} element
+   * @param {any} message
+   */
+  function appendMessage(element, { user, time, text, avatar }) {
+    const fmtTime = getFmtTime(time)
+
+    const userMsgDiv = dom.createElement('div', { class: 'user-message' }, [
+      dom.createElement('div', { class: 'user-name-time' }, [
+        dom.createElement('span', { class: 'name' }, [user]),
+        dom.createElement('span', { class: 'time' }, [fmtTime]),
+      ]),
+      dom.createElement('div', { class: 'message-text' }, [text]),
+    ])
+
+    const imgDiv = dom.createElement('div', { class: 'user-image' }, [
+      dom.createElement('img', { src: avatar })
+    ])
+
+    const li = dom.createElement('li', {}, [imgDiv, userMsgDiv])
+    element.appendChild(li)
+  }
+
+  /**
    * @type {import('../../declarations').DomHelpers}
    */
   const domHelpers = {
     nsToElement,
     roomToElement,
+    appendMessage,
   }
 
   window.domHelpers = domHelpers

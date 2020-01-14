@@ -132,27 +132,8 @@
     dom.append(nsElement, namespaces.map(nsToElement))
 
     // Listen for message received.
-    nsSocket.on('message', ({ text, time, user, avatar }) => {
-      const dt = new Date(time)
-      const hours = dt.getHours()
-      const minutes = dt.getMinutes()
-      const amPm = hours > 12 ? 'pm' : 'am'
-      const fmtTime = `${hours}:${minutes} ${amPm}`
-
-      const userMsgDiv = dom.createElement('div', { class: 'user-message' }, [
-        dom.createElement('div', { class: 'user-name-time' }, [
-          dom.createElement('span', { class: 'name' }, [user]),
-          dom.createElement('span', { class: 'time' }, [fmtTime]),
-        ]),
-        dom.createElement('div', { class: 'message-text' }, [text]),
-      ])
-
-      const imgDiv = dom.createElement('div', { class: 'user-image' }, [
-        dom.createElement('img', { src: avatar })
-      ])
-
-      const li = dom.createElement('li', {}, [imgDiv, userMsgDiv])
-      messages.appendChild(li)
+    nsSocket.on('message', (message) => {
+      domHelpers.appendMessage(messages, message)
     })
   }
 
