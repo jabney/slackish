@@ -31,6 +31,7 @@ export interface DomHelpers {
 
 export interface IoHelpers {
   onNamespaces(namespaces: NsData[]): void
+  getNsSocket(): SocketIOClient.Socket
 }
 
 declare global {
