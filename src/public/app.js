@@ -1,22 +1,8 @@
-'use strict'
-
-const ioHelpers = {
-  /**
-   * Return a namespace div from namespace display data.
-   *
-   * @param {(element: Element, ns: any) => void} cb
-   * @param {{img: string, endpoint: string}}  ns
-   */
-  nsToElement: (cb, ns) => {
-    const img = dom.createElement('img', { src: ns.img })
-    const div = dom.createElement('div', { class: 'namespace', ns: ns.endpoint }, [img])
-    cb(div, ns)
-    return div
-  }
-};
+'use strict';
 
 (() => {
   const socket = io(location.href)
+  const socketWiki = io(location.href + 'wiki')
 
   // Listen for namespaces from the server.
   socket.on('namespaces', (namespaces) => {
@@ -33,6 +19,23 @@ const ioHelpers = {
 
     // Append namespaces to the namespace dom element.
     dom.append(nsElement, namespaces.map(nsToElement))
+  })
+
+  // Listen for namespace rooms from the server.
+  socketWiki.on('rooms', (rooms) => {
+    const roomElement = dom.empty('#room-list')
+    /**
+     * Create a function that maps namespace data to dom elements and
+     * adds a click event listener to each one.
+     */
+    const roomToElement = ioHelpers.roomToElement.bind(null, (element, room) => {
+      element.addEventListener('click', () => {
+        console.log('clicked room', room.title)
+      })
+    })
+
+    // Append namespaces to the namespace dom element.
+    dom.append(roomElement, rooms.map(roomToElement))
   })
 
   /**
