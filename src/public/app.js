@@ -84,6 +84,7 @@ function ioOnNamespaces(namespaces) {
    */
   const input = document.querySelector('input#user-message')
   const messages = document.querySelector('#messages')
+  const form = document.querySelector('#user-input')
 
   const socket = io(location.href)
 
@@ -96,7 +97,8 @@ function ioOnNamespaces(namespaces) {
     messages.appendChild(message)
   })
 
-  document.querySelector('#user-input').addEventListener('submit', (event) => {
+  // Listen for form submit events.
+  form.addEventListener('submit', (event) => {
     event.preventDefault()
     const msg = input.value
     if (msg.length > 0) {
