@@ -17,10 +17,12 @@ const namespaces = nss.namespaces()
 const ready = namespaces.then((namespaces) => {
   // For each namespace, listen for a connection.
   namespaces.forEach((ns) => {
+    // Listen for namespace connections.
     io.of(ns.endpoint).on('connect', (socket) => {
       console.log(`${socket.id} has joined ${ns.title}`)
+      // Send room data.
       socket.emit('rooms', ns.rooms)
-
+      // Join room on request.
       socket.on('join-room', (roomTitle) => {
         socket.join(roomTitle)
       })
@@ -39,6 +41,7 @@ io.on('connect', async (socket) => {
     endpoint: ns.endpoint,
   }))
 
+  // On sync request, send requested data.
   socket.on('sync', ({ namespaces }) => {
     if (!namespaces) {
       // Send namespace data to newly-connected client.
@@ -46,7 +49,9 @@ io.on('connect', async (socket) => {
     }
   })
 
+  // Broadcast messages from this socket.
   socket.on('message', (msg) => io.emit('message', msg))
 
+  // Log disconnects.
   socket.on('disconnect', () => console.log('disconnected:', socket.id))
 })
