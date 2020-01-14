@@ -52,7 +52,7 @@
     nsSocket.on('history', (history) => {
       const messages = dom.empty('#messages')
       history.forEach(message => domHelpers.appendMessage(messages, message))
-      messages.scrollTo(0, messages.scrollHeight)
+      domHelpers.scrollToBottom(messages)
     })
   }
 
@@ -140,6 +140,7 @@
     // Listen for message received.
     nsSocket.on('message', (message) => {
       domHelpers.appendMessage(messages, message)
+      domHelpers.scrollToBottom(messages)
     })
   }
 

@@ -72,12 +72,22 @@
   }
 
   /**
+   * Scroll to the bottom of the given element.
+   *
+   * @param {Element} element
+   */
+  function scrollToBottom(element) {
+    element.scrollTo(0, element.scrollHeight)
+  }
+
+  /**
    * @type {import('../../declarations').DomHelpers}
    */
   const domHelpers = {
     nsToElement,
     roomToElement,
     appendMessage,
+    scrollToBottom,
   }
 
   window.domHelpers = domHelpers
