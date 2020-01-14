@@ -14,10 +14,21 @@
    */
 
   /**
-   * @param {SocketIOClient.Socket} nsSocket
+   * @type {SocketIOClient.Socket}
+   */
+  let nsSocket
+
+  function getNsSocket() {
+    if (nsSocket == null) {
+      throw new Error('getNsSocket: cannot use null socket')
+    }
+    return nsSocket
+  }
+
+  /**
    * @param {string} roomTitle
    */
-  function joinRoom(nsSocket, roomTitle) {
+  function joinRoom(roomTitle) {
     nsSocket.emit('join-room', roomTitle, (error, numUsers) => {
       // Set current room title.
       const currRoomElement = dom.findOne('#curr-room-text')
@@ -36,10 +47,9 @@
   /**
    * Handle namespace rooms list from server.
    *
-   * @param {SocketIOClient.Socket} nsSocket
    * @param {RoomData[]} rooms
    */
-  function onRooms(nsSocket, rooms) {
+  function onRooms(rooms) {
     const roomElement = dom.empty('#room-list')
 
     // Keep track of which room the user is in.
@@ -54,7 +64,7 @@
     const roomToElement = domHelpers.roomToElement.bind(null, (element, room) => {
       element.addEventListener('click', () => {
         if (currentRoom !== room.title) {
-          joinRoom(nsSocket, room.title)
+          joinRoom(room.title)
           currentRoom = room.title
         }
       })
@@ -70,10 +80,14 @@
    * @param {string} endpoint
    */
   function joinNamespace(endpoint) {
-    const nsSocket = io(location.href + endpoint)
+    if (nsSocket != null) {
+      nsSocket.disconnect()
+    }
+
+    nsSocket = io(location.href + endpoint)
 
     // Listen for namespace rooms from the server.
-    nsSocket.on('rooms', onRooms.bind(null, nsSocket))
+    nsSocket.on('rooms', onRooms)
 
     return nsSocket
   }
@@ -84,9 +98,11 @@
    * @param {NsData[]} namespaces
    */
   function onNamespaces(namespaces) {
+    const messages = dom.findOne('#messages')
+
     // Connect to the first namespace in the list.
-    const initialEndpoint = namespaces[0].endpoint
-    let nsSocket = joinNamespace(initialEndpoint)
+    const [{ endpoint }] = namespaces
+    joinNamespace(endpoint)
 
     // Remove children of the namespaces element.
     const nsElement = dom.empty('#namespaces')
@@ -100,14 +116,19 @@
         // Get the current socket endpoint (remove leading slash)
         const currentEndpoint = nsSocket.nsp.slice(1)
         if (currentEndpoint !== ns.endpoint) {
-          nsSocket.disconnect()
-          nsSocket = joinNamespace(ns.endpoint)
+          joinNamespace(ns.endpoint)
         }
       })
     })
 
     // Append namespaces to the namespaces element.
     dom.append(nsElement, namespaces.map(nsToElement))
+
+    // Listen for message received.
+    nsSocket.on('message', (msg) => {
+      const message = dom.createElement('li', {}, [msg])
+      messages.appendChild(message)
+    })
   }
 
   /**
@@ -115,6 +136,7 @@
    */
   const ioHelpers = {
     onNamespaces,
+    getNsSocket,
   }
 
   window.ioHelpers = ioHelpers

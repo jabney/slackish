@@ -9,8 +9,7 @@
    * @type {HTMLInputElement}
    */
   const input = document.querySelector('input#user-message')
-  const messages = document.querySelector('#messages')
-  const form = document.querySelector('#user-input')
+  const form = dom.findOne('#user-input')
 
   // Initialize socket,io.
   const socket = io(location.href)
@@ -38,11 +37,6 @@
     socket.on('namespaces', onNamespaces)
   })
 
-  // Listen for message received.
-  socket.on('message', (msg) => {
-    const message = dom.createElement('li', {}, [msg])
-    messages.appendChild(message)
-  })
 
   // Listen for form submit events.
   form.addEventListener('submit', (event) => {
@@ -50,8 +44,7 @@
     const msg = input.value
     if (msg.length > 0) {
       input.value = ''
-      socket.emit('message', msg)
+      ioHelpers.getNsSocket().emit('message', msg)
     }
   })
-
 })()
