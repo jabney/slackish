@@ -15,6 +15,7 @@ const namespaces = nss.namespaces()
  * Resolves when io namespaces have been configured.
  */
 const ready = namespaces.then((namespaces) => {
+  // For each namespace, listen for a connection.
   namespaces.forEach((ns) => {
     io.of(ns.endpoint).on('connect', (socket) => {
       console.log(`${socket.id} has joined ${ns.title}`)
@@ -38,8 +39,12 @@ io.on('connect', async (socket) => {
     endpoint: ns.endpoint,
   }))
 
-  // Send namespace data to newly-connected client.
-  socket.emit('namespaces', nsData)
+  socket.on('sync', ({ namespaces }) => {
+    if (!namespaces) {
+      // Send namespace data to newly-connected client.
+      socket.emit('namespaces', nsData)
+    }
+  })
 
   socket.on('message', (msg) => io.emit('message', msg))
 

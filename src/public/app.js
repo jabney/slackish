@@ -86,10 +86,25 @@ function ioOnNamespaces(namespaces) {
   const messages = document.querySelector('#messages')
   const form = document.querySelector('#user-input')
 
+  // Initialize socket,io.
   const socket = io(location.href)
 
-  // Listen for namespaces from the server.
-  socket.on('namespaces', ioOnNamespaces)
+  // Keep track of the first connection vs subsequent reconnects.
+  let syncData = {
+    namespaces: false,
+  }
+
+  function onNamespaces(namespaces) {
+    syncData = { ...syncData, namespaces: true }
+    ioOnNamespaces(namespaces)
+  }
+
+  socket.on('connect', () => {
+    socket.emit('sync', syncData)
+
+    // Listen for namespaces from the server.
+    socket.on('namespaces', onNamespaces)
+  })
 
   // Listen for message received.
   socket.on('message', (msg) => {
