@@ -51,12 +51,12 @@ body {
   padding-top: 10px;
 }
 
-#chat-panel .curr-room-text {
+#chat-panel #curr-room-text {
   color: #282c34;
   font-size: 26px;
 }
 
-.curr-room-num-users, .search {
+.curr-room-users, .search {
   font-size: 14px;
   color: #ABB2BF;
   position: realtive;

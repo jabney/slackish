@@ -18,7 +18,19 @@
    * @param {string} roomTitle
    */
   function joinRoom(nsSocket, roomTitle) {
-    nsSocket.emit('join-room', roomTitle)
+    nsSocket.emit('join-room', roomTitle, (error, numUsers) => {
+      // Set current room title.
+      const currRoomElement = dom.findOne('#curr-room-text')
+      currRoomElement.innerHTML = roomTitle
+
+      // Set current room num users.
+      const usersElement = dom.findOne('#curr-room-users-count')
+      if (error) {
+        usersElement.innerHTML = '0'
+      } else {
+        usersElement.innerHTML = `${numUsers}`
+      }
+    })
   }
 
   /**
@@ -29,6 +41,10 @@
    */
   function onRooms(nsSocket, rooms) {
     const roomElement = dom.empty('#room-list')
+
+    // Keep track of which room the user is in.
+    let currentRoom = null
+
     /**
      * Create a function that maps namespace data to dom elements and
      * adds a click event listener to each one.
@@ -37,7 +53,10 @@
      */
     const roomToElement = domHelpers.roomToElement.bind(null, (element, room) => {
       element.addEventListener('click', () => {
-        joinRoom(nsSocket, room.title)
+        if (currentRoom !== room.title) {
+          joinRoom(nsSocket, room.title)
+          currentRoom = room.title
+        }
       })
     })
 

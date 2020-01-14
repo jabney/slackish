@@ -23,8 +23,16 @@ const ready = namespaces.then((namespaces) => {
       // Send room data.
       socket.emit('rooms', ns.rooms)
       // Join room on request.
-      socket.on('join-room', (roomTitle) => {
+      socket.on('join-room', (roomTitle, numUsersCb) => {
         socket.join(roomTitle)
+
+        // Check if num users ack callback was specified.
+        if (numUsersCb) {
+          const roomNs = io.of(ns.endpoint).in(roomTitle)
+          roomNs.clients((error, clients) => {
+            numUsersCb(error, clients.length)
+          })
+        }
       })
     })
   })
