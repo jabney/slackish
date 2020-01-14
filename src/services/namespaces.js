@@ -33,7 +33,7 @@ async function namespaces() {
    */
   const nsData = response.body
   return nsData.map((nsData) => {
-    const ns = new Namespace(nsData.title, nsData.img, '/' + nsData.id)
+    const ns = new Namespace(nsData.title, nsData.img, nsData.id)
     nsData.rooms.forEach(rm => ns.addRoom(new Room(rm.title, ns, rm.isPrivate)))
     return ns
   })
