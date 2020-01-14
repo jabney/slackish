@@ -42,10 +42,17 @@ const ready = namespaces.then((namespaces) => {
         }
       })
 
-      socket.on('message', (msg) => {
+      socket.on('message', ({ text }) => {
+        const message = {
+          text,
+          time: Date.now(),
+          user: 'jabney',
+          avatar: 'https://s.gravatar.com/avatar/5240df899ccf11b1771b8737afada026?s=40',
+        }
+
         const [, currRoom] = Object.keys(socket.rooms)
         const roomNs = io.of(socket.nsp.name).to(currRoom)
-        roomNs.emit('message', msg)
+        roomNs.emit('message', message)
       })
     })
   })

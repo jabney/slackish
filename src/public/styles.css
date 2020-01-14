@@ -109,8 +109,13 @@ input {
   color: #222;
 }
 
-#messages li .user-name-time span {
+#messages li .user-name-time .time {
+  margin-left: 4px;
   color: #ABB2BF;
+}
+
+#messages li .user-name-time .name {
+  font-weight: bold;
 }
 
 #messages li {
