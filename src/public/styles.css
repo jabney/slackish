@@ -1,3 +1,4 @@
+
 body {
   background-color: #3B4048;
   color: white;
@@ -18,6 +19,31 @@ body {
   width:45px;
 }
 
+#rooms {
+  background: #3B4048;
+  min-height: 100vh;
+  color: #ABB2BF;
+}
+
+#room-list {
+  padding-left: 0px;
+}
+
+#room-list li {
+  cursor: pointer;
+  list-style-type: none;
+  padding: 0px 15px;
+}
+
+#room-list li span {
+  margin-right: 5px;
+}
+
+#room-list li.active {
+  background-color: #61AFEF;
+  color: #fff;
+}
+
 #chat-panel {
   background-color: #fff;
   min-height: 100vh;
@@ -28,32 +54,6 @@ body {
 #chat-panel .curr-room-text {
   color: #282c34;
   font-size: 26px;
-}
-
-.room-list {
-  padding-left: 0px;
-}
-
-.room-list li {
-  cursor: pointer;
-  list-style-type: none;
-  padding: 0px 15px;
-}
-
-.room-list li span {
-  margin-right: 5px;
-}
-
-.room-list li.active {
-  background-color: #61AFEF;
-  color: #fff;
-}
-
-.rooms {
-  background: #3B4048;
-  min-height: 100vh;
-  color: #ABB2BF;
-
 }
 
 .curr-room-num-users, .search {
