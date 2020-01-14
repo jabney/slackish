@@ -33,7 +33,7 @@
       </div>
 
       <div id="chat-panel" class="col-sm-9">
-        <div class="room-header row">
+        <div id="room-header" class="row">
           <div class="col-sm-9">
             <span id="curr-room-text"><!-- POPULATED DYNAMICALLY -->Current Room</span>
             <span class="curr-room-users">
@@ -46,17 +46,6 @@
               <span class="glyphicon glyphicon-search"></span>
             <input type="text" id="search-box" placeholder="Search" />
           </div>
-        </div>
-
-        <div class="message-form">
-          <form id="user-input">
-            <div class="col-sm-12">
-              <input id="user-message" type="text" placeholder="Enter your message" />
-            </div>
-            <div class="col-sm-2">
-              <input class="btn btn-primary" type="submit" value="send" style="display: none"/>
-            </div>
-          </form>
         </div>
 
         <ul id="messages" class="col-sm-12">
@@ -73,6 +62,18 @@
           </li>
           -->
         </ul>
+
+        <div id="message-form">
+          <form id="user-input">
+            <div class="col-sm-12">
+              <input id="user-message" type="text" placeholder="Enter your message" />
+            </div>
+            <div class="col-sm-2">
+              <input class="btn btn-primary" type="submit" value="send" style="display: none"/>
+            </div>
+          </form>
+        </div>
+
       </div>
     </div>
   </div>
