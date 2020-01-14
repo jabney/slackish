@@ -100,6 +100,7 @@ function ioOnNamespaces(namespaces) {
   }
 
   socket.on('connect', () => {
+    // Request data based on sync state.
     socket.emit('sync', syncData)
 
     // Listen for namespaces from the server.
