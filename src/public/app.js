@@ -21,6 +21,8 @@
   }
 
   /**
+   * Handler for incomming namespaces; update sync data when called.
+   *
    * @param {NsData[]} namespaces
    */
   function onNamespaces(namespaces) {
