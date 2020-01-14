@@ -7,3 +7,8 @@ I often like to make tutorial projects my own in some significant ways. That's w
 - Styles and DOM structure are customized/reimagined to some degree.
 - Various custom abstractions have been added, such as the `namespace` service for interacting with a remote namespace data server.
 - A modest DOM manipulation library has been implemented.
+
+## Todo
+
+- Implement flux data store on server and/or client.
+- Persist chat data on the server.
