@@ -24,17 +24,17 @@ export interface RoomData {
   history: string[]
 }
 
-export interface IoHelpers {
+export interface DomHelpers {
   nsToElement(cb: (element: Element, ns: NsData) => void, ns: NsData): Element
   roomToElement(cb: (element: Element, room: RoomData) => void, room: RoomData): Element
 }
 
 declare global {
   const dom: DomLib
-  const ioHelpers: IoHelpers
+  const domHelpers: DomHelpers
 
   interface Window {
     dom: DomLib
-    ioHelpers: IoHelpers
+    domHelpers: DomHelpers
   }
 }

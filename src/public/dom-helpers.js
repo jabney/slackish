@@ -37,12 +37,12 @@
   }
 
   /**
-   * @type {import('../../declarations').IoHelpers}
+   * @type {import('../../declarations').DomHelpers}
    */
-  const ioHelpers = {
+  const domHelpers = {
     nsToElement,
     roomToElement,
   }
 
-  window.ioHelpers = ioHelpers
+  window.domHelpers = domHelpers
 })()

@@ -27,7 +27,7 @@
      *
      * @type {(room: import('../../declarations').RoomData) => Element}
      */
-    const roomToElement = ioHelpers.roomToElement.bind(null, (element, room) => {
+    const roomToElement = domHelpers.roomToElement.bind(null, (element, room) => {
       element.addEventListener('click', () => {
         ioJoinRoom(nsSocket, room.title)
       })
@@ -68,7 +68,7 @@
      * Create a function that maps namespace data to dom elements and
      * adds a click event listener to each one.
      */
-    const nsToElement = ioHelpers.nsToElement.bind(null, (element, ns) => {
+    const nsToElement = domHelpers.nsToElement.bind(null, (element, ns) => {
       element.addEventListener('click', () => {
         // Get the current socket endpoint (remove leading slash)
         const currentEndpoint = nsSocket.nsp.slice(1)
