@@ -18,6 +18,11 @@
    */
   let nsSocket
 
+  /**
+   * @type {string}
+   */
+  let nsRoom
+
   function getNsSocket() {
     if (nsSocket == null) {
       throw new Error('getNsSocket: cannot use null socket')
@@ -30,6 +35,7 @@
    */
   function joinRoom(roomTitle) {
     nsSocket.emit('join-room', roomTitle, (error, numUsers) => {
+      nsRoom = roomTitle
       // Set current room title.
       const currRoomElement = dom.findOne('#curr-room-text')
       currRoomElement.innerHTML = roomTitle
@@ -52,8 +58,9 @@
   function onRooms(rooms) {
     const roomElement = dom.empty('#room-list')
 
-    // Keep track of which room the user is in.
-    let currentRoom = null
+    // Join the first room in the list.
+    const [{ title: initialRoom }] = rooms
+    joinRoom(initialRoom)
 
     /**
      * Create a function that maps namespace data to dom elements and
@@ -63,9 +70,9 @@
      */
     const roomToElement = domHelpers.roomToElement.bind(null, (element, room) => {
       element.addEventListener('click', () => {
-        if (currentRoom !== room.title) {
+        if (nsRoom !== room.title) {
           joinRoom(room.title)
-          currentRoom = room.title
+          nsRoom = room.title
         }
       })
     })
@@ -126,7 +133,7 @@
 
     // Listen for message received.
     nsSocket.on('message', (msg) => {
-      const message = dom.createElement('li', {}, [msg])
+      const message = dom.createElement('li', {}, [msg.text])
       messages.appendChild(message)
     })
   }
