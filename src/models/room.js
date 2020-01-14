@@ -39,7 +39,7 @@ class Room {
       id: this.id,
       title: this.title,
       isPrivate: this.isPrivate,
-      namespace: this.namespace.title,
+      nsTitle: this.namespace.title,
       history: this.history,
     }
   }
