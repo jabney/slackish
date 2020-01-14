@@ -22,6 +22,7 @@ class Room {
    */
   addMessage(msg) {
     this.history.push(msg)
+    return this
   }
 
   /**
@@ -29,6 +30,7 @@ class Room {
    */
   clearHistory() {
     this.history = []
+    return this
   }
 
   /**

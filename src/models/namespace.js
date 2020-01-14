@@ -25,6 +25,7 @@ class Namespace {
    */
   addRoom(room) {
     this.rooms.push(room)
+    return this
   }
 
   /**
