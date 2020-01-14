@@ -41,10 +41,10 @@
   // Listen for form submit events.
   form.addEventListener('submit', (event) => {
     event.preventDefault()
-    const msg = input.value
-    if (msg.length > 0) {
+    const text = input.value
+    if (text.length > 0) {
       input.value = ''
-      ioHelpers.getNsSocket().emit('message', msg)
+      ioHelpers.getNsSocket().emit('message', { text })
     }
   })
 })()
