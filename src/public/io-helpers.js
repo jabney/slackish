@@ -50,8 +50,9 @@
     })
 
     nsSocket.on('history', (history) => {
-      const messages = dom.findOne('#messages')
+      const messages = dom.empty('#messages')
       history.forEach(message => domHelpers.appendMessage(messages, message))
+      messages.scrollTo(0, messages.scrollHeight)
     })
   }
 
