@@ -20,10 +20,17 @@ const ready = namespaces.then((namespaces) => {
     // Listen for namespace connections.
     io.of(ns.endpoint).on('connect', (socket) => {
       console.log(`${socket.id} has joined ${ns.title}`)
+
+      // Track the socket's current room.
+      let currentRoom = null
+
       // Send room data.
       socket.emit('rooms', ns.rooms)
       // Join room on request.
       socket.on('join-room', (roomTitle, numUsersCb) => {
+        // Leave current room and join new room.
+        socket.leave(currentRoom)
+        currentRoom = roomTitle
         socket.join(roomTitle)
 
         // Check if num users ack callback was specified.
@@ -33,6 +40,12 @@ const ready = namespaces.then((namespaces) => {
             numUsersCb(error, clients.length)
           })
         }
+      })
+
+      socket.on('message', (msg) => {
+        const [, currRoom] = Object.keys(socket.rooms)
+        const roomNs = io.of(socket.nsp.name).to(currRoom)
+        roomNs.emit('message', msg)
       })
     })
   })
@@ -56,9 +69,6 @@ io.on('connect', async (socket) => {
       socket.emit('namespaces', nsData)
     }
   })
-
-  // Broadcast messages from this socket.
-  socket.on('message', (msg) => io.emit('message', msg))
 
   // Log disconnects.
   socket.on('disconnect', () => console.log('disconnected:', socket.id))
