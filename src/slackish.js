@@ -18,6 +18,7 @@ const ready = namespaces.then((namespaces) => {
   namespaces.forEach((ns) => {
     io.of(ns.endpoint).on('connect', (socket) => {
       console.log(`${socket.id} has joined ${ns.title}`)
+      socket.emit('rooms', ns.rooms)
     })
   })
 })
