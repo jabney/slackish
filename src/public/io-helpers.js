@@ -21,7 +21,7 @@
   /**
    * @type {string}
    */
-  let nsRoom
+  let nsRoomTitle
 
   function getNsSocket() {
     if (nsSocket == null) {
@@ -35,7 +35,7 @@
    */
   function joinRoom(roomTitle) {
     nsSocket.emit('join-room', roomTitle, (error, numUsers) => {
-      nsRoom = roomTitle
+      nsRoomTitle = roomTitle
       // Set current room title.
       const currRoomElement = dom.findOne('#curr-room-text')
       currRoomElement.innerHTML = roomTitle
@@ -70,9 +70,9 @@
      */
     const roomToElement = domHelpers.roomToElement.bind(null, (element, room) => {
       element.addEventListener('click', () => {
-        if (nsRoom !== room.title) {
+        if (nsRoomTitle !== room.title) {
           joinRoom(room.title)
-          nsRoom = room.title
+          nsRoomTitle = room.title
         }
       })
     })
