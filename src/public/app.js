@@ -1,19 +1,20 @@
 'use strict'
 
 /**
- *
+ * @param {SocketIOClient.Socket} nsSocket
  * @param {string} roomTitle
  */
-function ioJoinRoom(roomTitle) {
-  console.log('clicked room', roomTitle)
+function ioJoinRoom(nsSocket, roomTitle) {
+  nsSocket.emit('join-room', roomTitle)
 }
 
 /**
  * Handle namespace rooms list from server.
  *
+ * @param {SocketIOClient.Socket} nsSocket
  * @param {import('../../declarations').RoomData[]} rooms
  */
-function ioOnRooms(rooms) {
+function ioOnRooms(nsSocket, rooms) {
   const roomElement = dom.empty('#room-list')
   /**
    * Create a function that maps namespace data to dom elements and
@@ -23,7 +24,7 @@ function ioOnRooms(rooms) {
    */
   const roomToElement = ioHelpers.roomToElement.bind(null, (element, room) => {
     element.addEventListener('click', () => {
-      ioJoinRoom(room.title)
+      ioJoinRoom(nsSocket, room.title)
     })
   })
 
@@ -40,7 +41,7 @@ function ioJoinNs(endpoint) {
   const nsSocket = io(location.href + endpoint)
 
   // Listen for namespace rooms from the server.
-  nsSocket.on('rooms', ioOnRooms)
+  nsSocket.on('rooms', ioOnRooms.bind(null, nsSocket))
 
   return nsSocket
 }
