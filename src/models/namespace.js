@@ -3,7 +3,6 @@ const Room = require('./room')
 let nextId = 0
 
 class Namespace {
-  static lala = 1
   /**
    * @param {string} title
    * @param {string} img
@@ -26,6 +25,13 @@ class Namespace {
    */
   addRoom(room) {
     this.rooms.push(room)
+  }
+
+  /**
+   * @param {string} title
+   */
+  findRoom(title) {
+    return this.rooms.find(room => room.title === title)
   }
 }
 
