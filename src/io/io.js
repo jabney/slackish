@@ -34,6 +34,11 @@ function init(io) {
               numUsersCb(error, clients.length)
             })
           }
+
+          const roomObj = ns.findRoom(roomTitle)
+          if (roomObj) {
+            socket.emit('history', roomObj.history)
+          }
         })
 
         socket.on('message', ({ text }) => {
@@ -41,7 +46,7 @@ function init(io) {
             text,
             time: Date.now(),
             user: 'jabney',
-            avatar: 'https://s.gravatar.com/avatar/b58996c504c5638798eb6b511e6f49af?s=40',
+            avatar: 'https://s.gravatar.com/avatar/5240df899ccf11b1771b8737afada026?s=40',
           }
 
           const currentRoom = getCurrentRoom(socket)

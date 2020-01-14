@@ -48,6 +48,11 @@
         usersElement.innerHTML = `${numUsers}`
       }
     })
+
+    nsSocket.on('history', (history) => {
+      const messages = dom.findOne('#messages')
+      history.forEach(message => domHelpers.appendMessage(messages, message))
+    })
   }
 
   /**
