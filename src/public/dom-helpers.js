@@ -52,12 +52,12 @@
    * @param {Element} element
    * @param {any} message
    */
-  function appendMessage(element, { user, time, text, avatar }) {
+  function appendMessage(element, { name, time, text, avatar }) {
     const fmtTime = getFmtTime(time)
 
     const userMsgDiv = dom.createElement('div', { class: 'user-message' }, [
       dom.createElement('div', { class: 'user-name-time' }, [
-        dom.createElement('span', { class: 'name' }, [user]),
+        dom.createElement('span', { class: 'name' }, [name]),
         dom.createElement('span', { class: 'time' }, [fmtTime]),
       ]),
       dom.createElement('div', { class: 'message-text' }, [text]),

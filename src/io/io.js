@@ -5,6 +5,7 @@ const sendUserCount = require('./send-user-count')
 const namespaces = nss.namespaces()
 const Namespace = require('../models/namespace')
 const gravatar = require('../lib/gravatar')
+const deserializeUser = require('./middleware/deserialize-user.socket')
 
 /**
  * @typedef {import('socket.io').Server} Server
@@ -16,9 +17,9 @@ const gravatar = require('../lib/gravatar')
 
 /**
  * @typedef {Object} MsgInfo
- * @property {string} text
- * @property {string} user
+ * @property {string} name
  * @property {string} avatar
+ * @property {string} text
  */
 
 /**
@@ -77,8 +78,7 @@ function initNamespace(io, ns) {
   io.of(ns.endpoint).on('connect', (socket) => {
     console.log(`${socket.id} has joined ${ns.title}`)
 
-    const { user, email } = socket.handshake.query
-    const avatar = gravatar(email)
+    socket.use(deserializeUser)
 
     // Send room data.
     socket.emit('rooms', ns.rooms)
@@ -90,8 +90,15 @@ function initNamespace(io, ns) {
       joinRoom(socket, io, ns, roomTitle)
     })
 
-    socket.on('message', ({ text }) => {
-      const msgInfo = { text, user, avatar }
+    socket.on('message', (message) => {
+      // Destructure message.
+      const { text } = message.body
+      const { name, email } = message.user
+      // Create user avatar.
+      const avatar = gravatar(email)
+      // Construct message info object.
+      const msgInfo = { name, avatar, text }
+      // Send message.
       onMessage(socket, io, ns, msgInfo)
     })
 

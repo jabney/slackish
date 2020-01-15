@@ -6,6 +6,20 @@
    */
 
   /**
+   * Construct a message to send over io.
+   *
+   * @param {string} text
+   */
+  function constructMessage(text) {
+    const token = localStorage.getItem('token')
+    const message = {
+      headers: { token },
+      body: { text }
+    }
+    return message
+  }
+
+  /**
    * @type {HTMLInputElement}
    */
   const input = document.querySelector('input#user-message')
@@ -15,19 +29,14 @@
    */
   const search = (dom.findOne('#search-box'))
 
-  // Send user info in query.
-  const query = {
+  // Set an ad-hoc token object in local storage.
+  localStorage.setItem('token', btoa(JSON.stringify({
     user: 'jabney',
     email: 'james.abney@gmail.com',
-  }
+  })))
 
   // Initialize socket.io.
-  const socket = io(location.href, { query })
-
-  // Send query data on reconnect attempt.
-  socket.on('reconnect_attempt', () => {
-    socket.io.opts.query = query
-  })
+  const socket = io(location.href)
 
   // Keep track of the first connection vs subsequent reconnects.
   let syncData = {
@@ -55,10 +64,9 @@
   // Listen for form submit events.
   form.addEventListener('submit', (event) => {
     event.preventDefault()
-    const text = input.value
-    if (text.length > 0) {
+    if (input.value.length > 0) {
+      ioHelpers.getNsSocket().emit('message', constructMessage(input.value))
       input.value = ''
-      ioHelpers.getNsSocket().emit('message', { text })
     }
   })
 
