@@ -4,6 +4,7 @@ const getCurrentRoom = require('./get-current-room')
 const sendUserCount = require('./send-user-count')
 const namespaces = nss.namespaces()
 const Namespace = require('../models/namespace')
+const gravatar = require('../lib/gravatar')
 
 /**
  * @typedef {import('socket.io').Server} Server
@@ -14,12 +15,18 @@ const Namespace = require('../models/namespace')
  */
 
 /**
+ * @typedef {Object} MsgInfo
+ * @property {string} text
+ * @property {string} user
+ * @property {string} avatar
+ */
+
+/**
  * @param {Socket} socket
  * @param {Server} io
  * @param {string} endpoint
  */
 function disconnect(socket, io, endpoint) {
-  // console.log('disconnected')
   const currentRoom = getCurrentRoom(socket)
   // Leave current room and join new room.
   socket.leave(currentRoom)
@@ -51,15 +58,10 @@ function joinRoom(socket, io, ns, roomTitle) {
  * @param {Socket} socket
  * @param {Server} io
  * @param {Namespace} ns
- * @param {string} text
+ * @param {MsgInfo} msgInfo
  */
-function onMessage(socket, io, ns, text) {
-  const message = {
-    text,
-    time: Date.now(),
-    user: 'jabney',
-    avatar: 'https://s.gravatar.com/avatar/5240df899ccf11b1771b8737afada026?s=40',
-  }
+function onMessage(socket, io, ns, msgInfo) {
+  const message = { ...msgInfo, time: Date.now() }
 
   const currentRoom = getCurrentRoom(socket)
   ns.findRoom(currentRoom).addMessage(message)
@@ -75,6 +77,9 @@ function initNamespace(io, ns) {
   io.of(ns.endpoint).on('connect', (socket) => {
     console.log(`${socket.id} has joined ${ns.title}`)
 
+    const { user, email } = socket.handshake.query
+    const avatar = gravatar(email)
+
     // Send room data.
     socket.emit('rooms', ns.rooms)
 
@@ -85,7 +90,10 @@ function initNamespace(io, ns) {
       joinRoom(socket, io, ns, roomTitle)
     })
 
-    socket.on('message', ({ text }) => onMessage(socket, io, ns, text))
+    socket.on('message', ({ text }) => {
+      const msgInfo = { text, user, avatar }
+      onMessage(socket, io, ns, msgInfo)
+    })
 
     socket.on('disconnecting', () => disconnect(socket, io, ns.endpoint))
   })
