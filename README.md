@@ -1,5 +1,7 @@
 # Slackish
 
+![slackish screenshot](https://raw.githubusercontent.com/jabney/slackish/master/meta/images/slackish.png "Slackish")
+
 An interpretation of [socketioTheDetails/socketio201](https://github.com/robertbunch/socketioTheDetails/tree/master/socketio201)
 
 I often like to make tutorial projects my own in some significant ways. That's what I've done here:
