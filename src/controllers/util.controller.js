@@ -1,18 +1,19 @@
 const express = require('express')
-const crypto = require('crypto')
+const { createHash } = require('../lib/hash')
+
+const md5 = createHash('md5')
 
 /**
  * @type {express.RequestHandler}
  */
-const md5 = (req, res, next) => {
+const getMd5 = (req, res, next) => {
   const value = req.query.value || req.body.value
 
   if (typeof value !== 'string' || value.length > 2 ** 12) {
     return res.json({ hash: null })
   }
 
-  const hash = crypto.createHash('md5').update(value)
-  res.json({ hash: hash.digest('hex') })
+  res.json({ hash: md5(value) })
 }
 
-module.exports = { md5 }
+module.exports = { getMd5 }
