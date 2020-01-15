@@ -11,5 +11,5 @@ I often like to make tutorial projects my own in some significant ways. That's w
 ## Todo
 
 - Implement flux data store on server and/or client. Data flow/consistency between client and server is sketchy at best, using callbacks and listeners coupled with emit calls. It would be preferable to treat the server as the data store, dispatch actions via `socket.io`, and have the server replicate state and/or actions back to the client.
-
 - Persist chat data on the server.
+- Replace old-school raw dom app with webpack/babel.
