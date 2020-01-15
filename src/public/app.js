@@ -10,6 +10,10 @@
    */
   const input = document.querySelector('input#user-message')
   const form = dom.findOne('#user-input')
+  /**
+   * @type {HTMLInputElement}
+   */
+  const search = (dom.findOne('#search-box'))
 
   // Initialize socket,io.
   const socket = io(location.href)
@@ -45,5 +49,24 @@
       input.value = ''
       ioHelpers.getNsSocket().emit('message', { text })
     }
+  })
+
+  // Listen for changes to the search text.
+  search.addEventListener('input', (event) => {
+    const searchText = search.value.toLocaleLowerCase()
+    /**
+     * @type {HTMLElement[]}
+     */
+    const messages = (Array.from(dom.findAll('#messages li')))
+
+    messages.forEach((li) => {
+      const messageText = dom.findOne('.message-text', li).innerHTML
+
+      if (messageText.toLocaleLowerCase().includes(searchText)) {
+        li.style.display = 'block'
+      } else {
+        li.style.display = 'none'
+      }
+    })
   })
 })()
