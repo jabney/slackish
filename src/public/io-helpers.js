@@ -91,6 +91,8 @@
    * @param {string} endpoint
    */
   function joinNamespace(endpoint) {
+    const messages = dom.findOne('#messages')
+
     if (nsSocket != null) {
       nsSocket.disconnect()
     }
@@ -99,6 +101,12 @@
 
     // Listen for namespace rooms from the server.
     nsSocket.on('rooms', onRooms)
+
+    // Listen for message received.
+    nsSocket.on('message', (message) => {
+      domHelpers.appendMessage(messages, message)
+      domHelpers.scrollToBottom(messages)
+    })
 
     return nsSocket
   }
@@ -109,8 +117,6 @@
    * @param {NsData[]} namespaces
    */
   function onNamespaces(namespaces) {
-    const messages = dom.findOne('#messages')
-
     // Connect to the first namespace in the list.
     const [{ endpoint }] = namespaces
     joinNamespace(endpoint)
@@ -134,12 +140,6 @@
 
     // Append namespaces to the namespaces element.
     dom.append(nsElement, namespaces.map(nsToElement))
-
-    // Listen for message received.
-    nsSocket.on('message', (message) => {
-      domHelpers.appendMessage(messages, message)
-      domHelpers.scrollToBottom(messages)
-    })
   }
 
   /**
