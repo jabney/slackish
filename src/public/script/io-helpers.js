@@ -2,15 +2,15 @@
 
 (() => {
   /**
-   * @typedef {import('../../declarations').IoHelpers} IoHelpers
+   * @typedef {import('../../../declarations').IoHelpers} IoHelpers
    */
 
   /**
-   * @typedef {import('../../declarations').NsData} NsData
+   * @typedef {import('../../../declarations').NsData} NsData
    */
 
   /**
-   * @typedef {import('../../declarations').RoomData} RoomData
+   * @typedef {import('../../../declarations').RoomData} RoomData
    */
 
   /**

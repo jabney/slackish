@@ -2,7 +2,7 @@
 
 (() => {
   /**
-   * @typedef {import('../../declarations').NsData} NsData
+   * @typedef {import('../../../declarations').NsData} NsData
    */
 
   /**

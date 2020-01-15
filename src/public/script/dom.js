@@ -137,7 +137,7 @@
   }
 
   /**
-   * @type {import('../../declarations').DomLib}
+   * @type {import('../../../declarations').DomLib}
    */
   const domLib = {
     findAll,
