@@ -7,10 +7,10 @@
    * @param {string} selector
    * @param {Element|Document} [parent]
    *
-   * @returns {NodeListOf<Element>}
+   * @returns {Element[]}
    */
   function findAll(selector, parent = document) {
-    return parent.querySelectorAll(selector)
+    return Array.from(parent.querySelectorAll(selector))
   }
 
   /**

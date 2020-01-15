@@ -76,7 +76,7 @@
     /**
      * @type {HTMLElement[]}
      */
-    const messages = (Array.from(dom.findAll('#messages li')))
+    const messages = (dom.findAll('#messages li'))
 
     messages.forEach((li) => {
       const messageText = dom.findOne('.message-text', li).innerHTML
