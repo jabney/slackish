@@ -7,12 +7,11 @@
  * @param {string} roomTitle
  */
 function sendUserCount(io, endpoint, roomTitle) {
-  const roomNs = io.of(endpoint).in(roomTitle)
-  roomNs.clients((error, clients) => {
+  io.of(endpoint).in(roomTitle).clients((error, clients) => {
     if (error) {
       return console.error(error)
     }
-    roomNs.emit('num-users', clients.length)
+    io.of(endpoint).in(roomTitle).emit('num-users', clients.length)
   })
 }
 
