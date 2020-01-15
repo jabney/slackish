@@ -1,8 +1,11 @@
 # Slackish
 
+An interpretation of [socketioTheDetails/socketio201](https://github.com/robertbunch/socketioTheDetails/tree/master/socketio201)
+
 ![slackish screenshot](https://raw.githubusercontent.com/jabney/slackish/master/meta/images/slackish.png "Slackish")
 
-An interpretation of [socketioTheDetails/socketio201](https://github.com/robertbunch/socketioTheDetails/tree/master/socketio201)
+
+This project is currenly 100% old-school JavaScript DOM - no frameworks, jQuery, webpack, or babel. The only client dependencies are Bootstrap and SocketIO.
 
 I often like to make tutorial projects my own in some significant ways. That's what I've done here:
 - A modest DOM manipulation library has been implemented. Helpers like `createElement` are usually used in lieu of setting strings on `innerHTML`.
