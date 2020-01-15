@@ -1,5 +1,5 @@
 const nss = require('../services/namespaces')
-const getCurrentRoom = require('../lib/get-current-room')
+const getCurrentRoom = require('./get-current-room')
 
 const namespaces = nss.namespaces()
 
