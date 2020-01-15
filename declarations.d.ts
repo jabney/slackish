@@ -22,6 +22,8 @@ export interface DomLib {
   createElement(tag: string, attr?: Attributes, children?: (string|Element)[]): Element
   append(parent: string|Element, children: Element[]): Element
   empty(parent: string|Element): Element
+  addListener(node: string|Element, eventType: string, cb: () => void): () => void
+  addListeners(nodes: string|Element[], eventType: string, cb: () => void): () => void
 }
 
 export interface DomHelpers {

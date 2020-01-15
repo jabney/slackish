@@ -91,6 +91,52 @@
   }
 
   /**
+   * Add an event listener and return an unsubscribe function.
+   *
+   * @param {string|Element} node
+   * @param {string} eventType
+   * @param {() => void} cb
+   *
+   * @returns {() => void} unsubscribe
+   */
+  function addListener(node, eventType, cb) {
+    const element = typeof node === 'string' ? findOne(node) : node
+
+    const listener = (event) => {
+      cb.call(element, event)
+    }
+
+    element.addEventListener(eventType, listener)
+    return () => element.removeEventListener(eventType, listener)
+  }
+
+  /**
+   * Add multiple event listeners and return an unsubscribe function.
+   *
+   * @param {string|Element[]} nodes
+   * @param {string} eventType
+   * @param {() => void} cb
+   *
+   * @returns {() => void} unsubscribe
+   */
+  function addListeners(nodes, eventType, cb) {
+    const elements = typeof nodes === 'string' ? findAll(nodes) : nodes
+    const listeners = []
+
+    elements.forEach((element) => {
+      const listener = (event) => {
+        cb.call(element, event)
+      }
+      element.addEventListener(eventType, listener)
+      listeners.push(listener)
+    })
+
+    return () => elements.forEach((element, i) => {
+      element.removeEventListener(eventType, listeners[i])
+    })
+  }
+
+  /**
    * @type {import('../../declarations').DomLib}
    */
   const domLib = {
@@ -99,6 +145,8 @@
     createElement,
     append,
     empty,
+    addListener,
+    addListeners,
   }
 
   window.dom = domLib

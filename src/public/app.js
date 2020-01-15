@@ -62,7 +62,7 @@
   })
 
   // Listen for form submit events.
-  form.addEventListener('submit', (event) => {
+  dom.addListener(form, 'submit', (event) => {
     event.preventDefault()
     if (input.value.length > 0) {
       ioHelpers.getNsSocket().emit('message', constructMessage(input.value))
@@ -71,7 +71,7 @@
   })
 
   // Listen for changes to the search text.
-  search.addEventListener('input', (event) => {
+  dom.addListener(search, 'input', (event) => {
     const searchText = search.value.toLocaleLowerCase()
     /**
      * @type {HTMLElement[]}
@@ -82,7 +82,7 @@
       const messageText = dom.findOne('.message-text', li).innerHTML
 
       if (messageText.toLocaleLowerCase().includes(searchText)) {
-        li.style.display = 'block'
+        li.style.display = 'flex'
       } else {
         li.style.display = 'none'
       }
