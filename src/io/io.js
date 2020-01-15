@@ -23,7 +23,6 @@ function init(io) {
 
         // Send room data.
         socket.emit('rooms', ns.rooms)
-        // Join room on request.
 
         socket.on('disconnecting', () => {
           // console.log('disconnected')
@@ -33,7 +32,7 @@ function init(io) {
           sendUserCount(io, ns.endpoint, currentRoom)
         })
 
-        socket.on('join-room', (roomTitle, numUsersCb) => {
+        socket.on('join-room', (roomTitle, ackCb) => {
           const currentRoom = getCurrentRoom(socket)
           // Leave current room and join new room.
           socket.leave(currentRoom)
@@ -43,9 +42,7 @@ function init(io) {
           sendUserCount(io, ns.endpoint, roomTitle)
 
           // Check if num users ack callback was specified.
-          if (numUsersCb) {
-            numUsersCb()
-          }
+          if (ackCb) { ackCb() }
 
           const roomObj = ns.findRoom(roomTitle)
           if (roomObj) {
