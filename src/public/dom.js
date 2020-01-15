@@ -5,22 +5,24 @@
    * Find all nodes that match the given selector.
    *
    * @param {string} selector
+   * @param {Element|Document} [parent]
    *
    * @returns {NodeListOf<Element>}
    */
-  function findAll(selector) {
-    return document.querySelectorAll(selector)
+  function findAll(selector, parent = document) {
+    return parent.querySelectorAll(selector)
   }
 
   /**
    * Find the first node that matches the given selector.
    *
    * @param {string} selector
+   * @param {Element|Document} [parent]
    *
    * @returns {Element}
    */
-  function findOne(selector) {
-    return document.querySelector(selector)
+  function findOne(selector, parent = document) {
+    return parent.querySelector(selector)
   }
 
   /**

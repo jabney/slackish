@@ -17,8 +17,8 @@ export interface RoomData {
 }
 
 export interface DomLib {
-  findOne(sel: string): Element
-  findAll(sel: string): NodeListOf<Element>
+  findOne(sel: string, parent?: Element|Document): Element
+  findAll(sel: string, parent?: Element|Document): NodeListOf<Element>
   createElement(tag: string, attr?: Attributes, children?: (string|Element)[]): Element
   append(parent: string|Element, children: Element[]): Element
   empty(parent: string|Element): Element
