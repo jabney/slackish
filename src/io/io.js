@@ -1,28 +1,11 @@
 const nss = require('../services/namespaces')
 const getCurrentRoom = require('./get-current-room')
-
+const sendUserCount = require('./send-user-count')
 const namespaces = nss.namespaces()
 
 /**
  * @typedef {import('socket.io').Server} Server
  */
-
-/**
- * Send user count for a room to all sockets in the room.
- *
- * @param {Server} io
- * @param {string} endpoint
- * @param {string} roomTitle
- */
-function sendUserCount(io, endpoint, roomTitle) {
-  const roomNs = io.of(endpoint).in(roomTitle)
-  roomNs.clients((error, clients) => {
-    if (error) {
-      return console.error(error)
-    }
-    roomNs.emit('num-users', clients.length)
-  })
-}
 
 /**
  * @param {Server} io
