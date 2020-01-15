@@ -15,8 +15,19 @@
    */
   const search = (dom.findOne('#search-box'))
 
-  // Initialize socket,io.
-  const socket = io(location.href)
+  // Send user info in query.
+  const query = {
+    user: 'jabney',
+    email: 'james.abney@gmail.com',
+  }
+
+  // Initialize socket.io.
+  const socket = io(location.href, { query })
+
+  // Send query data on reconnect attempt.
+  socket.on('reconnect_attempt', () => {
+    socket.io.opts.query = query
+  })
 
   // Keep track of the first connection vs subsequent reconnects.
   let syncData = {
