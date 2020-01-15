@@ -59,9 +59,8 @@ function init(io) {
           }
 
           const currentRoom = getCurrentRoom(socket)
-          const roomNs = io.of(socket.nsp.name).to(currentRoom)
           ns.findRoom(currentRoom).addMessage(message)
-          roomNs.emit('message', message)
+          io.of(ns.endpoint).to(currentRoom).emit('message', message)
         })
       })
     })
