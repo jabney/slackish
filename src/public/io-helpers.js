@@ -34,19 +34,17 @@
    * @param {string} roomTitle
    */
   function joinRoom(roomTitle) {
-    nsSocket.emit('join-room', roomTitle, (error, numUsers) => {
+    nsSocket.emit('join-room', roomTitle, () => {
       nsRoomTitle = roomTitle
       // Set current room title.
       const currRoomElement = dom.findOne('#curr-room-text')
       currRoomElement.innerHTML = roomTitle
+    })
 
-      // Set current room num users.
+    nsSocket.on('num-users', (numUsers) => {
+      // Set current room title.
       const usersElement = dom.findOne('#curr-room-users-count')
-      if (error) {
-        usersElement.innerHTML = '0'
-      } else {
-        usersElement.innerHTML = `${numUsers}`
-      }
+      usersElement.innerHTML = numUsers
     })
 
     nsSocket.on('history', (history) => {

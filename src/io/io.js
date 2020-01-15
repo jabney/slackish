@@ -4,7 +4,28 @@ const getCurrentRoom = require('../lib/get-current-room')
 const namespaces = nss.namespaces()
 
 /**
- * @param {import('socket.io').Server} io
+ * @typedef {import('socket.io').Server} Server
+ */
+
+/**
+ * Send user count for a room to all sockets in the room.
+ *
+ * @param {Server} io
+ * @param {string} endpoint
+ * @param {string} roomTitle
+ */
+function sendUserCount(io, endpoint, roomTitle) {
+  const roomNs = io.of(endpoint).in(roomTitle)
+  roomNs.clients((error, clients) => {
+    if (error) {
+      return console.error(error)
+    }
+    roomNs.emit('num-users', clients.length)
+  })
+}
+
+/**
+ * @param {Server} io
  */
 function init(io) {
   /**
@@ -21,18 +42,26 @@ function init(io) {
         socket.emit('rooms', ns.rooms)
         // Join room on request.
 
+        socket.on('disconnecting', () => {
+          // console.log('disconnected')
+          const currentRoom = getCurrentRoom(socket)
+          // Leave current room and join new room.
+          socket.leave(currentRoom)
+          sendUserCount(io, ns.endpoint, currentRoom)
+        })
+
         socket.on('join-room', (roomTitle, numUsersCb) => {
           const currentRoom = getCurrentRoom(socket)
           // Leave current room and join new room.
           socket.leave(currentRoom)
+          sendUserCount(io, ns.endpoint, currentRoom)
+
           socket.join(roomTitle)
+          sendUserCount(io, ns.endpoint, roomTitle)
 
           // Check if num users ack callback was specified.
           if (numUsersCb) {
-            const roomNs = io.of(ns.endpoint).in(roomTitle)
-            roomNs.clients((error, clients) => {
-              numUsersCb(error, clients.length)
-            })
+            numUsersCb()
           }
 
           const roomObj = ns.findRoom(roomTitle)
