@@ -4,7 +4,7 @@
   "description": "A socket.io chat app that sort of looks like Slack",
   "main": "index.js",
   "scripts": {
-    "client": "nodemon --watch index.js --watch src",
+    "client": "nodemon --watch index.js --watch src --ignore src/public",
     "server": "json-server --watch data/namespaces.json --port 9001",
     "start": "concurrently --raw --kill-others 'npm run server' 'npm run client'"
   },
