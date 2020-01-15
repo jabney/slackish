@@ -37,7 +37,6 @@
     socket.on('namespaces', onNamespaces)
   })
 
-
   // Listen for form submit events.
   form.addEventListener('submit', (event) => {
     event.preventDefault()
