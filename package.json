@@ -4,21 +4,15 @@
   "description": "A socket.io chat app that sort of looks like Slack",
   "main": "index.js",
   "scripts": {
-    "client": "nodemon --watch index.js --watch src --ignore src/public",
-    "server": "json-server --watch data/namespaces.json --port 9001",
-    "start": "concurrently --raw --kill-others 'npm run server' 'npm run client'"
+    "build": "npm --prefix client run build",
+    "client": "npm --prefix client start",
+    "postinstall": "(cd client && yarn install); (cd server && yarn install)",
+    "server": "nodemon --watch server --ignore server/src/public",
+    "start": "node server"
   },
   "keywords": [],
-  "author": "",
+  "author": "James Abney",
   "license": "MIT",
-  "dependencies": {
-    "express": "^4.17.1",
-    "json-server": "^0.15.1",
-    "socket.io": "^2.3.0",
-    "superagent": "^5.2.1"
-  },
-  "devDependencies": {
-    "@types/socket.io-client": "^1.4.32",
-    "concurrently": "^5.0.2"
-  }
+  "dependencies": {},
+  "devDependencies": {}
 }

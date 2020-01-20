@@ -10,7 +10,8 @@ const PORT = process.env.PORT || 9000
  */
 function expressApp() {
   const app = express()
-  app.use(express.static(path.resolve(__dirname, './public')))
+  app.use(express.static('./server/public'))
+  // app.use(express.static('./client/build'))
   app.use(express.json())
   app.use('/util', utilRouter)
   const server = app.listen(PORT, () => console.log(`listening on port ${PORT}`))

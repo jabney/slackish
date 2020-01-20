@@ -12,13 +12,9 @@
  * @property {RoomData[]} rooms
  */
 
-const superagent = require('superagent')
-const urlPrefix = require('../lib/plugins/superagent/url-prefix')
 const Namespace = require('../models/namespace')
 const Room = require('../models/room')
-
-// Create an instance of superagent with url prefixing plugged in.
-const agent = superagent.agent().use(urlPrefix('http://localhost:9001'))
+const nsData = require('../data/namespaces.json')
 
 /**
  * Fetch and transform namespaces.
@@ -26,13 +22,7 @@ const agent = superagent.agent().use(urlPrefix('http://localhost:9001'))
  * @returns {Promise<Namespace[]>}
  */
 async function namespaces() {
-  const response = await agent.get('namespaces')
-
-  /**
-   * @type {NamespaceData[]}
-   */
-  const nsData = response.body
-  return nsData.map((nsData) => {
+  return nsData.namespaces.map((nsData) => {
     const ns = new Namespace(nsData.title, nsData.img, nsData.id)
     nsData.rooms.forEach(rm => ns.addRoom(new Room(rm.title, ns, rm.isPrivate)))
     return ns

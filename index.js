@@ -1,1 +1,1 @@
-module.exports = require('./src/slackish')
+module.exports = require('./server')
