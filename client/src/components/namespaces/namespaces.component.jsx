@@ -1,8 +1,13 @@
 import React from 'react'
+import { connect } from 'react-redux'
+
 import './namespaces.component.scss'
 
 const Namespaces = () => (
   <div className="Namespaces">Namespaces</div>
 )
 
-export default Namespaces
+const mapState = () => ({})
+const mapDispatch = () => ({})
+
+export default connect(mapState, mapDispatch)(Namespaces)
