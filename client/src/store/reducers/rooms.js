@@ -1,11 +1,11 @@
-import {} from '../actions'
+import { UPDATE_ROOMS } from '../actions'
 
 /**
  * @typedef {import('../../../../declarations').RoomData} Room
  */
 
 /**
- * @typedef {import('../actions').Action<Room[]>} Action
+ * @typedef {import('../../../../declarations').Action<Room[]>} Action
  */
 
 /**
@@ -14,6 +14,9 @@ import {} from '../actions'
  */
 const rooms = (state = [], action) => {
   switch (action.type) {
+    case UPDATE_ROOMS: {
+      return action.payload
+    }
     default: {
       return state
     }

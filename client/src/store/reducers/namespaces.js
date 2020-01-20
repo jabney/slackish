@@ -1,11 +1,11 @@
-import {} from '../actions'
+import { UPDATE_NAMESPACES } from '../actions'
 
 /**
  * @typedef {import('../../../../declarations').NamespaceData} Namespace
  */
 
 /**
- * @typedef {import('../actions').Action<Namespace[]>} Action
+ * @typedef {import('../../../../declarations').Action<Namespace[]>} Action
  */
 
 /**
@@ -14,6 +14,9 @@ import {} from '../actions'
  */
 const namespaces = (state = [], action) => {
   switch (action.type) {
+    case UPDATE_NAMESPACES: {
+      return action.payload
+    }
     default: {
       return state
     }
