@@ -1,11 +1,12 @@
 {
-  "include": [".", "declarations.d.ts"],
+  "include": ["."],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "target": "esnext",
     "module": "commonJS",
     "lib": ["dom"],
     "checkJs": true,
+    "jsx": "react",
     "resolveJsonModule": true
   }
 }
