@@ -24,4 +24,4 @@ const App = () => (
   </Container>
 )
 
-export default App;
+export default App
