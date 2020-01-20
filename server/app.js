@@ -3,7 +3,7 @@ const path = require('path')
 
 const utilRouter = require('./routers/util.router')
 
-const PORT = process.env.PORT || 9000
+const PORT = process.env.PORT || 3001
 
 /**
  * Create and configure the express app. Start and return the server.
