@@ -1,4 +1,32 @@
 
 .Chat {
-  color: inherit;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+
+  .header {
+    flex: 0 0 auto;
+  }
+
+  .body {
+    flex: 1 1 auto;
+  }
+
+  .footer {
+    flex: 0 0 auto;
+
+    input[type=text] {
+      width: 100%;
+      outline: none;
+      border: 1px solid lightgray;
+      line-height: 36px;
+      padding: 0 8px;
+      border-radius: 5px;
+    }
+
+    input[type=submit] {
+      display: none;
+    }
+  }
 }
