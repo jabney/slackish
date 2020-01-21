@@ -1,6 +1,6 @@
 declare module '*.svg' { export default undefined }
 
-export interface INamespace {
+export interface INsData {
   title: string
   img: string
   endpoint: string
@@ -26,10 +26,22 @@ export interface IUser {
   email: string
 }
 
+export interface INamespace extends INsData {
+  rooms: IRoom[]
+  room: string
+  socket: SocketIOClient.Socket
+}
+
 type ActionType = 'update-namespaces'|'update-rooms'|'add-message'|'set-user'
-  |'set-socket'
+  |'set-socket'|'set-namespace'
 
 export interface Action<T> {
   type: ActionType,
   payload?: T
+}
+
+export interface Store {
+  namespaces: INamespace[],
+  namespace: INamespace,
+  user: IUser,
 }

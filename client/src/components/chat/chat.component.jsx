@@ -39,7 +39,7 @@ const Chat = ({ user, messages, addMessage }) => {
     <div className="header"></div>
     <ul className="body">
       {
-        messages.map(msg => <ChatMessage key={messageKey(msg)} msg={msg} />)
+        // messages.map(msg => <ChatMessage key={messageKey(msg)} msg={msg} />)
       }
     </ul>
     <div className="footer">

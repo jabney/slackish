@@ -1,15 +1,15 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { selectNamespace } from '../../store/actions'
 
-import './namespaces.component.scss'
 import NamespaceItem from '../namespace-item/namespace-item.component'
 
-const Namespaces = ({ namespaces }) => {
-  const onClick = (endpoint) => console.log(endpoint)
+import './namespaces.component.scss'
 
+const Namespaces = ({ namespaces, selectNamespace }) => {
   return <div className="Namespaces">
     {
-      namespaces.map(ns => <NamespaceItem key={ns.endpoint} ns={ns} onClick={onClick} />)
+      namespaces.map(ns => <NamespaceItem key={ns.endpoint} ns={ns} onClick={selectNamespace} />)
     }
   </div>
 }
@@ -18,6 +18,8 @@ const mapState = (state) => ({
   namespaces: state.namespaces
 })
 
-const mapDispatch = () => ({})
+const mapDispatch = (dispatch) => ({
+  selectNamespace: (ns) => dispatch(selectNamespace(ns)),
+})
 
 export default connect(mapState, mapDispatch)(Namespaces)

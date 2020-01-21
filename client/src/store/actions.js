@@ -1,3 +1,8 @@
+import io from 'socket.io-client'
+
+/**
+ * @typedef {import('../../../declarations').Store} Store
+ */
 
 /**
  * @template T
@@ -5,7 +10,7 @@
  */
 
 /**
- * @typedef {import('../../../declarations').INamespace} Namespace
+ * @typedef {import('../../../declarations').INsData} Namespace
  */
 
 /**
@@ -24,11 +29,16 @@
  * @typedef {SocketIOClient.Socket} Socket
  */
 
+/**
+ * @template A
+ * @typedef {import('redux-thunk').ThunkAction<void, Store, void, A>} ThunkAction
+ */
+
 export const UPDATE_NAMESPACES = 'update-namespaces'
 export const UPDATE_ROOMS = 'update-rooms'
 export const ADD_MESSAGE = 'add-message'
 export const SET_USER = 'set-user'
-export const SET_SOCKET = 'set-socket'
+export const SET_NAMESPACE = 'set-namespace'
 
 /**
  * @param {Namespace[]} namespaces
@@ -67,10 +77,22 @@ export const setUser = (user) => {
 }
 
 /**
- * @param {Socket} socket
+ * @param {Namespace} ns
  *
- * @returns {Action<User>}
+ * @returns {ThunkAction<Action<Namespace>>}
  */
-export const setSocket = (socket) => {
-  return { type: SET_SOCKET, payload: socket }
+export const selectNamespace = (ns) => (dispatch, getState) => {
+  let { namespace } = getState()
+
+  if (namespace) {
+    if (namespace.endpoint === ns.endpoint) { return }
+    namespace.socket.disconnect()
+  }
+
+  namespace = { ...ns, rooms: null, room: null, socket: io('/' + ns.endpoint) }
+
+  namespace.socket.once('rooms', (rooms) => {
+    console.log('rooms:', rooms)
+    dispatch({ type: SET_NAMESPACE, payload: namespace })
+  })
 }
