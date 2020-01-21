@@ -10,7 +10,7 @@ import './login-modal.component.scss'
  */
 const LoginModal = ({ setUser }) => {
   // Show/hide the modal.
-  const [show, setShow] = useState(true)
+  const [showModal, setShowModal] = useState(true)
   // User name and email address.
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -42,13 +42,13 @@ const LoginModal = ({ setUser }) => {
   const onClose = () => {
     if (formIsValid) {
       setUser({ name, email })
-      setShow(false)
+      setShowModal(false)
     } else {
       setShowError(true)
     }
   }
 
-  return <Modal show={show} onHide={onClose} className='LoginModal'>
+  return <Modal show={showModal} onHide={onClose} className='LoginModal'>
     <Modal.Header closeButton>
       <Modal.Title>Enter user info:</Modal.Title>
     </Modal.Header>
