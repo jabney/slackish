@@ -23,11 +23,13 @@ const LoginModal = ({ setUser }) => {
     setEmail(localStorage.getItem('email'))
   }, [])
 
-  // Update local storage when values change.
+  // Update local storage when name changes.
   useEffect(() => {
     setShowError(false)
     localStorage.setItem('name', name)
   }, [name])
+
+  // Update local storage when email changes.
   useEffect(() => {
     setShowError(false)
     localStorage.setItem('email', email)
