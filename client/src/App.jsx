@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { updateNamespaces } from './store/actions'
+import { updateNamespaces, setSocket } from './store/actions'
 import io from 'socket.io-client'
 
 import LoginModal from './components/login-modal/login-modal.component'
@@ -12,10 +12,15 @@ import Chat from './components/chat/chat.component'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.scss'
 
-
 const socket = io()
 
-const App = ({ updateNamespaces }) => {
+const App = ({ setSocket, updateNamespaces }) => {
+  /**
+   * Set the global root socket.
+   */
+  const setSock = () => void setSocket(socket)
+  useEffect(setSock, [])
+
   /**
    * Listen for namespaces and dispatch on receive.
    */
@@ -46,7 +51,8 @@ const App = ({ updateNamespaces }) => {
 const mapState = (state) => ({})
 
 const mapDispatch = (dispatch) => ({
-  updateNamespaces: (nss) => dispatch(updateNamespaces(nss))
+  setSocket: (socket) => dispatch(setSocket(socket)),
+  updateNamespaces: (nss) => dispatch(updateNamespaces(nss)),
 })
 
 export default connect(mapState, mapDispatch)(App)

@@ -27,6 +27,7 @@ export interface IUser {
 }
 
 type ActionType = 'update-namespaces'|'update-rooms'|'add-message'|'set-user'
+  |'set-socket'
 
 export interface Action<T> {
   type: ActionType,

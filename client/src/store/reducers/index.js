@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
 import namespaces from './namespaces'
-import rooms from './rooms'
 import messages from './messages'
 import user from './user'
+import socket from './socket'
 
 /**
  * @template T
@@ -16,9 +16,9 @@ import user from './user'
 
 const root = combineReducers({
   namespaces,
-  rooms,
   messages,
   user,
+  socket,
 })
 
 export default root

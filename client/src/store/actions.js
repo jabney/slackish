@@ -20,10 +20,15 @@
  * @typedef {import('../../../declarations').IUser} User
  */
 
+/**
+ * @typedef {SocketIOClient.Socket} Socket
+ */
+
 export const UPDATE_NAMESPACES = 'update-namespaces'
 export const UPDATE_ROOMS = 'update-rooms'
 export const ADD_MESSAGE = 'add-message'
 export const SET_USER = 'set-user'
+export const SET_SOCKET = 'set-socket'
 
 /**
  * @param {Namespace[]} namespaces
@@ -59,4 +64,13 @@ export const addMessage = (message) => {
  */
 export const setUser = (user) => {
   return { type: SET_USER, payload: user }
+}
+
+/**
+ * @param {Socket} socket
+ *
+ * @returns {Action<User>}
+ */
+export const setSocket = (socket) => {
+  return { type: SET_SOCKET, payload: socket }
 }
