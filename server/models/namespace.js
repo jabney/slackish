@@ -34,6 +34,15 @@ class Namespace {
   findRoom(title) {
     return this.rooms.find(room => room.title === title)
   }
+
+  toJSON() {
+    const serialized = {
+      title: this.title,
+      img: this.img,
+      endpoint: this.endpoint,
+    }
+    return serialized
+  }
 }
 
 module.exports = Namespace
