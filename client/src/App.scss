@@ -23,6 +23,13 @@
 
     .chat {
       flex: 1 1 auto;
+      display: flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      align-items: stretch;
+      justify-content: stretch;
+      padding-top: 14px;
+      padding-bottom: 14px;
       max-width: none;
     }
   }
