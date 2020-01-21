@@ -7,7 +7,6 @@
 
   .avatar {
     flex: 0 0 auto;
-    display: block;
   }
 
   .message {
@@ -30,7 +29,7 @@
     }
 
     .text {
-
+      color: inherit;
     }
   }
 }
