@@ -31,7 +31,7 @@ const Chat = ({ user, messages, addMessage }) => {
   /**
    * Return a unique key for the given message.
    *
-   * @param {import('../../../../declarations').ChatMessageData} m
+   * @param {import('../../../../declarations').IChatMessage} m
    */
   const messageKey = (m) => `${m.name}:${m.time}`
 

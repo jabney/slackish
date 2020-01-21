@@ -2,11 +2,11 @@
 
 (() => {
   /**
-   * @typedef {import('../../../declarations').NsData} NsData
+   * @typedef {import('../../declarations').NsData} NsData
    */
 
   /**
-   * @typedef {import('../../../declarations').RoomData} RoomData
+   * @typedef {import('../../declarations').RoomData} RoomData
    */
 
   /**
@@ -81,7 +81,7 @@
   }
 
   /**
-   * @type {import('../../../declarations').DomHelpers}
+   * @type {import('../../declarations').DomHelpers}
    */
   const domHelpers = {
     nsToElement,

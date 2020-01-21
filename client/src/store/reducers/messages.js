@@ -1,7 +1,7 @@
 import { ADD_MESSAGE } from '../actions'
 
 /**
- * @typedef {import('../../../../declarations').ChatMessageData} Message
+ * @typedef {import('../../../../declarations').IChatMessage} Message
  */
 
 /**

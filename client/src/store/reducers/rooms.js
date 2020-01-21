@@ -1,7 +1,7 @@
 import { UPDATE_ROOMS } from '../actions'
 
 /**
- * @typedef {import('../../../../declarations').RoomData} Room
+ * @typedef {import('../../../../declarations').IRoom} Room
  */
 
 /**

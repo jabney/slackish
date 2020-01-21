@@ -5,19 +5,19 @@
  */
 
 /**
- * @typedef {import('../../../declarations').NamespaceData} Namespace
+ * @typedef {import('../../../declarations').INamespace} Namespace
  */
 
 /**
- * @typedef {import('../../../declarations').RoomData} Room
+ * @typedef {import('../../../declarations').IRoom} Room
  */
 
 /**
- * @typedef {import('../../../declarations').ChatMessageData} Message
+ * @typedef {import('../../../declarations').IChatMessage} Message
  */
 
 /**
- * @typedef {import('../../../declarations').UserData} User
+ * @typedef {import('../../../declarations').IUser} User
  */
 
 export const UPDATE_NAMESPACES = 'update-namespaces'

@@ -1,12 +1,12 @@
 declare module '*.svg' { export default undefined }
 
-export interface NamespaceData {
+export interface INamespace {
   title: string
   img: string
   endpoint: string
 }
 
-export interface RoomData {
+export interface IRoom {
   id: number
   title: string
   nsTitle: string
@@ -14,14 +14,14 @@ export interface RoomData {
   history: string[]
 }
 
-export interface ChatMessageData {
+export interface IChatMessage {
   name: string
   time: string
   text: string
   avatar: string
 }
 
-export interface UserData {
+export interface IUser {
   name: string
   email: string
 }

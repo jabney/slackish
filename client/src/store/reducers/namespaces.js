@@ -1,7 +1,7 @@
 import { UPDATE_NAMESPACES } from '../actions'
 
 /**
- * @typedef {import('../../../../declarations').NamespaceData} Namespace
+ * @typedef {import('../../../../declarations').INamespace} Namespace
  */
 
 /**

@@ -1,7 +1,7 @@
 import { SET_USER } from '../actions'
 
 /**
- * @typedef {import('../../../../declarations').UserData} User
+ * @typedef {import('../../../../declarations').IUser} User
  */
 
 /**
