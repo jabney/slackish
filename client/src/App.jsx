@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { updateNamespaces } from './store/actions'
@@ -13,12 +13,17 @@ import './App.scss'
 
 import io from 'socket.io-client'
 
-const App = ({ updateNamespaces }) => {
-  const socket = io()
+const socket = io()
 
-  socket.on('namespaces', (namespaces) => {
-    updateNamespaces(namespaces)
-  })
+const App = ({ updateNamespaces }) => {
+  /**
+   * Listen for namespaces and dispatch on receive.
+   */
+  const namespaces = () => {
+    socket.on('namespaces', updateNamespaces)
+    return () => socket.disconnect()
+  }
+  useEffect(namespaces, [])
 
   return <>
     <LoginModal />
