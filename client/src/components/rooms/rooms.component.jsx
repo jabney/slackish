@@ -10,13 +10,16 @@ const Rooms = ({ namespace, selectRoom }) => {
   const selected = (room) => room.title === namespace.room
 
   return <div className="Rooms">
-    {
-      namespace.rooms.map(({ id, ...room }) => <RoomItem key={id}
-        room={room}
-        selected={selected(room)}
-        onClick={selectRoom}
-      />)
-    }
+    <h3>{namespace.title || 'Rooms'}</h3>
+    <ul className='room-list'>
+      {
+        namespace.rooms.map(({ id, ...room }) => <RoomItem key={id}
+          room={room}
+          selected={selected(room)}
+          onClick={selectRoom}
+        />)
+      }
+    </ul>
   </div>
 }
 

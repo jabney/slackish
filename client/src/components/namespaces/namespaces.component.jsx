@@ -9,17 +9,23 @@ import './namespaces.component.scss'
 /**
  *
  */
-const Namespaces = ({ namespaces, selectNamespace }) => (
-  <div className="Namespaces">
+const Namespaces = ({ namespaces, namespace, selectNamespace }) => {
+  const selected = (ns) => ns.endpoint === namespace.endpoint
+
+  return <div className="Namespaces">
     {
-      namespaces.map(ns => <NamespaceItem key={ns.endpoint} ns={ns} onClick={selectNamespace} />)
+      namespaces.map(ns => <NamespaceItem key={ns.endpoint}
+        ns={ns}
+        selected={selected(ns)}
+        onClick={selectNamespace}
+      />)
     }
   </div>
-)
-
+}
 
 const mapState = (state) => ({
-  namespaces: state.namespaces
+  namespaces: state.namespaces,
+  namespace: state.namespace || {},
 })
 
 const mapDispatch = (dispatch) => ({
