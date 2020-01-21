@@ -9,7 +9,7 @@ import './chat.component.scss'
 /**
  * Chat panel component.
  */
-const Chat = ({ messages, addMessage }) => {
+const Chat = ({ user, messages, addMessage }) => {
   const [value, setValue] = useState('')
 
   /**
@@ -21,7 +21,7 @@ const Chat = ({ messages, addMessage }) => {
     setValue('')
 
     addMessage({
-      name: 'jabney',
+      name: user.name,
       time: new Date().toJSON(),
       text: value,
       avatar: 'https://s.gravatar.com/avatar/5240df899ccf11b1771b8737afada026?s=60',
@@ -55,6 +55,7 @@ const Chat = ({ messages, addMessage }) => {
 }
 
 const mapState = (state) => ({
+  user: state.user,
   messages: state.messages,
 })
 
