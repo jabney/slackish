@@ -1,8 +1,13 @@
 import React from 'react'
-import './namespaces.component.scss'
+import './namespace-item.component.scss'
 
-const NamespaceItem = () => (
-  <div className="NamespaceItem">NamespaceItem</div>
+/**
+ * @type {React.FunctionComponent}
+ */
+const NamespaceItem = ({ ns, onClick }) => (
+  <div className="NamespaceItem" onClick={() => onClick(ns.endpoint)}>
+    <img src={ns.img} alt={ns.title} />
+  </div>
 )
 
 export default NamespaceItem

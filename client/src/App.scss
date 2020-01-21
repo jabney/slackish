@@ -9,7 +9,11 @@
 
     .namespace {
       flex: 0 1 1/12%;
-      min-width: 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      min-width: 54px;
       max-width: 80px;
       background-color: #202229;
     }
