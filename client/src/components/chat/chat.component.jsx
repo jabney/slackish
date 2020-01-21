@@ -24,19 +24,24 @@ const Chat = ({ messages, addMessage }) => {
       name: 'jabney',
       time: new Date().toJSON(),
       text: value,
-      avatar: '',
+      avatar: 'https://s.gravatar.com/avatar/5240df899ccf11b1771b8737afada026?s=60',
     })
   }
 
+  /**
+   * Return a unique key for the given message.
+   *
+   * @param {import('../../../../declarations').ChatMessageData} m
+   */
   const messageKey = (m) => `${m.name}:${m.time}`
 
   return <div className="Chat">
     <div className="header"></div>
-    <div className="body">
+    <ul className="body">
       {
-        messages.map(msg => <ChatMessage key={messageKey(msg)} {...msg} />)
+        messages.map(msg => <ChatMessage key={messageKey(msg)} msg={msg} />)
       }
-    </div>
+    </ul>
     <div className="footer">
       <form onSubmit={onSubmit} >
         <input type="text" placeholder="Enter chat text"
