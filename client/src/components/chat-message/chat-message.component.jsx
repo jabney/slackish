@@ -9,7 +9,7 @@ const ChatMessage = ({ msg }) => {
   const fmtTime = (dateStr) => new Date(dateStr).toLocaleTimeString()
   return <li className="ChatMessage">
     <div className='avatar'>
-      <img src={msg.avatar} />
+      <img src={msg.avatar} alt={`${msg.name} avatar`} />
     </div>
     <div className='message'>
       <div className='user'>
