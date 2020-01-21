@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
+import { setUser } from '../../store/actions'
 import { connect } from 'react-redux'
 
 import './login-modal.component.scss'
 
-const LoginModal = () => {
+const LoginModal = ({ setUser }) => {
   const [show, setShow] = useState(true)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [showError, setShowError] = useState(false)
 
   useEffect(() => {
     setName(localStorage.getItem('name'))
@@ -17,7 +19,16 @@ const LoginModal = () => {
   useEffect(() => localStorage.setItem('name', name), [name])
   useEffect(() => localStorage.setItem('email', email), [email])
 
-  return <Modal show={show} onHide={() => setShow(false)}>
+  const formIsValid = name.length > 0 && email.length > 0
+
+  const onClose = () => {
+    if (formIsValid) {
+      setUser({ name, email })
+      setShow(false)
+    }
+  }
+
+  return <Modal show={show} onHide={onClose} className='LoginModal'>
     <Modal.Header closeButton>
       <Modal.Title>Enter user info:</Modal.Title>
     </Modal.Header>
@@ -37,16 +48,28 @@ const LoginModal = () => {
     </Modal.Body>
 
     <Modal.Footer>
-      {/* <Button variant="secondary" onClick={() => setShow(false)}>Close</Button> */}
-      <Button variant="primary" onClick={() => setShow(false)}>Chat!</Button>
+      <Form.Text className='error' hidden={!showError || formIsValid}>
+        Please provide name and email
+      </Form.Text>
+      <Button variant={formIsValid ? 'primary' : 'secondary'}
+        style={{
+          cursor: formIsValid ? 'pointer' : 'not-allowed',
+          color: formIsValid ? 'white' : 'lightgray',
+        }}
+        onMouseOver={() => setShowError(true)}
+        onMouseOut={() => setShowError(false)}
+        onClick={onClose}
+      >
+        Chat!
+      </Button>
     </Modal.Footer>
   </Modal>
 }
 
-const mapState = (state) => ({
-  user: state.user,
-})
+const mapState = (state) => ({})
 
-const mapDispatch = (dispatch) => ({})
+const mapDispatch = (dispatch) => ({
+  setUser: (user) => setUser(user),
+})
 
 export default connect(mapState, mapDispatch)(LoginModal)
