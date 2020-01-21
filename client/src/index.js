@@ -5,14 +5,11 @@ import * as serviceWorker from './serviceWorker'
 import store from './store'
 import { Provider } from 'react-redux'
 import './index.css'
-import { IoProvider } from './context/io-context'
 
 ReactDOM.render(
-  <IoProvider>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </IoProvider>,
+  <Provider store={store}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 )
 
