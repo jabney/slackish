@@ -1,7 +1,11 @@
 
 .RoomItem {
   cursor: pointer;
-  color: lightgray;
+  color: #999;
+
+  &.selected {
+    color: white;
+  }
 
   .icon {
     font-size: larger;
@@ -11,9 +15,5 @@
   .title {
     margin-left: 2px;
     vertical-align: middle;
-  }
-
-  .selected {
-    color: white;
   }
 }

@@ -39,6 +39,9 @@ export const UPDATE_ROOMS = 'update-rooms'
 export const ADD_MESSAGE = 'add-message'
 export const SET_USER = 'set-user'
 export const SET_NAMESPACE = 'set-namespace'
+export const SELECT_ROOM = 'select-room'
+export const SET_ROOM_COUNT = 'set-room-count'
+export const SET_ROOM_HISTORY = 'set-room-history'
 
 /**
  * @param {Namespace[]} namespaces
@@ -92,7 +95,37 @@ export const selectNamespace = (ns) => (dispatch, getState) => {
   const socket = io('/' + ns.endpoint)
 
   socket.once('rooms', (rooms) => {
-    const newNs = { ...ns, rooms: rooms, room: null, socket }
+    const newNs = { ...ns, rooms: rooms, room: null, users: 0, socket }
     dispatch({ type: SET_NAMESPACE, payload: newNs })
+  })
+}
+
+/**
+ * @param {Room} room
+ *
+ * @returns {ThunkAction<Action<any>>}
+ */
+export const selectRoom = (room) => (dispatch, getState) => {
+  const { namespace } = getState()
+  const { socket, room: currentRoom } = namespace
+
+  if (room.title === currentRoom) { return }
+
+  socket.emit('join-room', room.title, () => {
+    socket.emit('user-count', (userCount) => {
+      dispatch({ type: SET_ROOM_COUNT, payload: userCount })
+    })
+
+    socket.emit('room-history', (history) => {
+      dispatch({ type: SET_ROOM_HISTORY, payload: history })
+    })
+
+    const onLeave = () => {
+      console.log('leaving room:', room.title)
+      socket.off('leave-room', onLeave)
+    }
+    socket.on('leave-room', onLeave)
+
+    dispatch({ type: SELECT_ROOM, payload: room.title })
   })
 }
