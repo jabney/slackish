@@ -89,7 +89,7 @@ const LoginModal = ({ setUser }) => {
 const mapState = (state) => ({})
 
 const mapDispatch = (dispatch) => ({
-  setUser: (user) => setUser(user),
+  setUser: (user) => dispatch(setUser(user)),
 })
 
 export default connect(mapState, mapDispatch)(LoginModal)
