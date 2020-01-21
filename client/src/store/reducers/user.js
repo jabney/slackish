@@ -12,6 +12,7 @@ const defaultState = {
   name: '',
   email: '',
 }
+
 /**
  * @param {User} state
  * @param {Action} action
