@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Container, Row, Col } from 'react-bootstrap'
 import { connect } from 'react-redux'
 import { updateNamespaces } from './store/actions'
+import io from 'socket.io-client'
 
 import LoginModal from './components/login-modal/login-modal.component'
 import Namespaces from './components/namespaces/namespaces.component'
@@ -11,7 +12,6 @@ import Chat from './components/chat/chat.component'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.scss'
 
-import io from 'socket.io-client'
 
 const socket = io()
 
