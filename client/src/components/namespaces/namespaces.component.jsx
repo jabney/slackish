@@ -6,13 +6,17 @@ import NamespaceItem from '../namespace-item/namespace-item.component'
 
 import './namespaces.component.scss'
 
-const Namespaces = ({ namespaces, selectNamespace }) => {
-  return <div className="Namespaces">
+/**
+ *
+ */
+const Namespaces = ({ namespaces, selectNamespace }) => (
+  <div className="Namespaces">
     {
       namespaces.map(ns => <NamespaceItem key={ns.endpoint} ns={ns} onClick={selectNamespace} />)
     }
   </div>
-}
+)
+
 
 const mapState = (state) => ({
   namespaces: state.namespaces

@@ -82,17 +82,17 @@ export const setUser = (user) => {
  * @returns {ThunkAction<Action<Namespace>>}
  */
 export const selectNamespace = (ns) => (dispatch, getState) => {
-  let { namespace } = getState()
+  const { namespace } = getState()
 
   if (namespace) {
     if (namespace.endpoint === ns.endpoint) { return }
     namespace.socket.disconnect()
   }
 
-  namespace = { ...ns, rooms: null, room: null, socket: io('/' + ns.endpoint) }
+  const socket = io('/' + ns.endpoint)
 
-  namespace.socket.once('rooms', (rooms) => {
-    console.log('rooms:', rooms)
-    dispatch({ type: SET_NAMESPACE, payload: namespace })
+  socket.once('rooms', (rooms) => {
+    const newNs = { ...ns, rooms: rooms, room: null, socket }
+    dispatch({ type: SET_NAMESPACE, payload: newNs })
   })
 }

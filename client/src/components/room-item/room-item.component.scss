@@ -1,4 +1,19 @@
 
 .RoomItem {
+  cursor: pointer;
+  color: lightgray;
 
+  .icon {
+    font-size: larger;
+    vertical-align: middle;
+  }
+
+  .title {
+    margin-left: 2px;
+    vertical-align: middle;
+  }
+
+  .selected {
+    color: white;
+  }
 }
