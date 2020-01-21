@@ -5,26 +5,46 @@ import { connect } from 'react-redux'
 
 import './login-modal.component.scss'
 
+/**
+ * Display a form to collect information about the chatting user.
+ */
 const LoginModal = ({ setUser }) => {
+  // Show/hide the modal.
   const [show, setShow] = useState(true)
+  // User name and email address.
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  // Incomplete form error message.
   const [showError, setShowError] = useState(false)
 
+  // Set state from local storage.
   useEffect(() => {
     setName(localStorage.getItem('name'))
     setEmail(localStorage.getItem('email'))
   }, [])
 
-  useEffect(() => localStorage.setItem('name', name), [name])
-  useEffect(() => localStorage.setItem('email', email), [email])
+  // Update local storage when values change.
+  useEffect(() => {
+    setShowError(false)
+    localStorage.setItem('name', name)
+  }, [name])
+  useEffect(() => {
+    setShowError(false)
+    localStorage.setItem('email', email)
+  }, [email])
 
+  // Form is filled out.
   const formIsValid = name.length > 0 && email.length > 0
 
+  /**
+   * Handle close button clicks.
+   */
   const onClose = () => {
     if (formIsValid) {
       setUser({ name, email })
       setShow(false)
+    } else {
+      setShowError(true)
     }
   }
 
