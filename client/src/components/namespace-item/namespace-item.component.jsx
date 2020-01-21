@@ -5,7 +5,7 @@ import './namespace-item.component.scss'
  * @type {React.FunctionComponent}
  */
 const NamespaceItem = ({ ns, onClick }) => (
-  <div className="NamespaceItem" onClick={() => onClick(ns)}>
+  <div className="NamespaceItem" title={ns.title} onClick={() => onClick(ns)}>
     <img src={ns.img} alt={ns.title} />
   </div>
 )
