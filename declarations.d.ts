@@ -21,7 +21,13 @@ export interface ChatMessageData {
   avatar: string
 }
 
-type ActionType = 'update-namespaces'|'update-rooms'|'add-message'
+export interface UserData {
+  name: string
+  email: string
+}
+
+type ActionType = 'update-namespaces'|'update-rooms'|'add-message'|'set-user'
+
 export interface Action<T> {
   type: ActionType,
   payload?: T

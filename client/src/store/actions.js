@@ -1,24 +1,29 @@
 
 /**
  * @template T
- * @typedef {import("../../../declarations").Action} Action
+ * @typedef {import('../../../declarations').Action} Action
  */
 
 /**
- * @typedef {import("../../../declarations").NamespaceData} Namespace
+ * @typedef {import('../../../declarations').NamespaceData} Namespace
  */
 
 /**
- * @typedef {import("../../../declarations").RoomData} Room
+ * @typedef {import('../../../declarations').RoomData} Room
  */
 
 /**
- * @typedef {import("../../../declarations").ChatMessageData} Message
+ * @typedef {import('../../../declarations').ChatMessageData} Message
+ */
+
+/**
+ * @typedef {import('../../../declarations').UserData} User
  */
 
 export const UPDATE_NAMESPACES = 'update-namespaces'
 export const UPDATE_ROOMS = 'update-rooms'
 export const ADD_MESSAGE = 'add-message'
+export const SET_USER = 'set-user'
 
 /**
  * @param {Namespace[]} namespaces
@@ -45,4 +50,13 @@ export const updateRooms = (rooms) => {
  */
 export const addMessage = (message) => {
   return { type: ADD_MESSAGE, payload: message }
+}
+
+/**
+ * @param {User} user
+ *
+ * @returns {Action<User>}
+ */
+export const setUser = (user) => {
+  return { type: SET_USER, payload: user }
 }
