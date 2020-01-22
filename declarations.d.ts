@@ -16,9 +16,15 @@ export interface IRoom {
 
 export interface IChatMessage {
   name: string
-  time: string
+  time: number
   text: string
   avatar: string
+}
+
+export interface IUserMessage {
+  name: string
+  email: string
+  text: string
 }
 
 export interface IUser {

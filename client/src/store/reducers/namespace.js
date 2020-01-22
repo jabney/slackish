@@ -3,6 +3,7 @@ import {
   SELECT_ROOM,
   SET_ROOM_COUNT,
   SET_ROOM_HISTORY,
+  ADD_MESSAGE,
 } from '../actions'
 
 /**
@@ -30,6 +31,9 @@ const namespace = (state = null, action) => {
     }
     case SET_ROOM_HISTORY: {
       return { ...state, history: action.payload }
+    }
+    case ADD_MESSAGE: {
+      return { ...state, history: [...state.history, action.payload] }
     }
     default: {
       return state

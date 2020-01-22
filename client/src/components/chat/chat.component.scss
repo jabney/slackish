@@ -7,13 +7,31 @@
 
   .header {
     flex: 0 0 auto;
+
+    h2 {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .users {
+      vertical-align: middle;
+      color: #aaa;
+      margin-left: 8px;
+    }
+
+    .users .icon {
+      font-size: 28px;
+    }
   }
 
   .body {
     flex: 1 1 auto;
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+
+    .messages {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
   }
 
   .footer {
@@ -22,7 +40,7 @@
     input[type=text] {
       width: 100%;
       outline: none;
-      border: 1px solid lightgray;
+      border: 1px solid gray;
       line-height: 36px;
       padding: 0 8px;
       border-radius: 5px;

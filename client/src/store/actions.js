@@ -18,7 +18,11 @@ import io from 'socket.io-client'
  */
 
 /**
- * @typedef {import('../../../declarations').IChatMessage} Message
+ * @typedef {import('../../../declarations').IChatMessage} ChatMessage
+ */
+
+/**
+ * @typedef {import('../../../declarations').IUserMessage} UserMessage
  */
 
 /**
@@ -59,15 +63,6 @@ export const updateNamespaces = (namespaces) => {
  */
 export const updateRooms = (rooms) => {
   return { type: UPDATE_ROOMS, payload: rooms }
-}
-
-/**
- * @param {Message} message
- *
- * @returns {Action<Message>}
- */
-export const addMessage = (message) => {
-  return { type: ADD_MESSAGE, payload: message }
 }
 
 /**
@@ -112,6 +107,10 @@ export const selectRoom = (room) => (dispatch, getState) => {
   if (room.title === currentRoom) { return }
 
   socket.emit('join-room', room.title, () => {
+    /**
+     * This user-count acknowledgement assures we don't miss a
+     * user count message.
+     */
     socket.emit('user-count', (userCount) => {
       dispatch({ type: SET_ROOM_COUNT, payload: userCount })
     })
@@ -120,12 +119,32 @@ export const selectRoom = (room) => (dispatch, getState) => {
       dispatch({ type: SET_ROOM_HISTORY, payload: history })
     })
 
-    const onLeave = () => {
-      console.log('leaving room:', room.title)
-      socket.off('leave-room', onLeave)
+    const onUserCount = (userCount) => {
+      dispatch({ type: SET_ROOM_COUNT, payload: userCount })
     }
-    socket.on('leave-room', onLeave)
+    socket.on('room-user-count', onUserCount)
+
+    const onMessage = (msg) => {
+      dispatch({ type: ADD_MESSAGE, payload: msg })
+    }
+    socket.on('message', onMessage)
+
+    socket.once('leave-room', () => {
+      socket.off('room-user-count', onUserCount)
+      socket.off('message', onMessage)
+    })
 
     dispatch({ type: SELECT_ROOM, payload: room.title })
   })
+}
+
+/**
+ * @param {UserMessage} msg
+ *
+ * @returns {ThunkAction<Action<UserMessage>>}
+ */
+export const sendMessage = (msg) => (dispatch, getState) => {
+  const { namespace } = getState()
+  if (!namespace) { return }
+  namespace.socket.emit('message', msg)
 }

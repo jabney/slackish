@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
-import { addMessage } from '../../store/actions'
-
+import { sendMessage } from '../../store/actions'
+import { ReactComponent as UserIcon } from 'bootstrap-icons/icons/person-fill.svg'
 import ChatMessage from '../chat-message/chat-message.component'
 
 import './chat.component.scss'
@@ -9,8 +9,9 @@ import './chat.component.scss'
 /**
  * Chat panel component.
  */
-const Chat = ({ user, messages, addMessage }) => {
+const Chat = ({ user, namespace, sendMessage }) => {
   const [value, setValue] = useState('')
+  const messages = namespace && namespace.history || []
 
   /**
    * @param {React.FormEvent} e
@@ -20,11 +21,10 @@ const Chat = ({ user, messages, addMessage }) => {
     if (value.length === 0) { return }
     setValue('')
 
-    addMessage({
+    sendMessage({
       name: user.name,
-      time: new Date().toJSON(),
+      email: user.email,
       text: value,
-      avatar: 'https://s.gravatar.com/avatar/5240df899ccf11b1771b8737afada026?s=60',
     })
   }
 
@@ -35,13 +35,25 @@ const Chat = ({ user, messages, addMessage }) => {
    */
   const messageKey = (m) => `${m.name}:${m.time}`
 
+  if (!namespace || !namespace.room) {
+    return null
+  }
+
   return <div className="Chat">
-    <div className="header"></div>
-    <ul className="body">
-      {
-        // messages.map(msg => <ChatMessage key={messageKey(msg)} msg={msg} />)
-      }
-    </ul>
+    <div className="header">
+      <h2>#{namespace.room}</h2>
+      <span className='users'>
+        <UserIcon className='icon' />
+        {namespace.users}
+      </span>
+    </div>
+    <div className="body">
+      <ul className="messages">
+        {
+          messages.map(msg => <ChatMessage key={messageKey(msg)} msg={msg} />)
+        }
+      </ul>
+    </div>
     <div className="footer">
       <form onSubmit={onSubmit} >
         <input type="text" placeholder="Enter chat text"
@@ -56,11 +68,11 @@ const Chat = ({ user, messages, addMessage }) => {
 
 const mapState = (state) => ({
   user: state.user,
-  messages: state.messages,
+  namespace: state.namespace,
 })
 
 const mapDispatch = (dispatch) => ({
-  addMessage: (msg) => dispatch(addMessage(msg))
+  sendMessage: (msg) => dispatch(sendMessage(msg))
 })
 
 export default connect(mapState, mapDispatch)(Chat)

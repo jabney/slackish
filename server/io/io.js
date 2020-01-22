@@ -3,6 +3,7 @@ const Namespace = require('../models/namespace')
 const getCurrentRoom = require('./get-current-room')
 const sendUserCount = require('./send-user-count')
 const getUserCount = require('./get-user-count')
+const gravatar = require('../lib/gravatar')
 
 /**
  * @typedef {import('socket.io').Server} Server
@@ -32,12 +33,13 @@ function joinRoom(io, socket, ns, roomTitle, onJoin) {
   const currentRoom = getCurrentRoom(socket)
 
   if (currentRoom) {
-    socket.emit('leave-room')
     socket.leave(currentRoom)
+    socket.emit('leave-room')
     sendUserCount(io, ns.endpoint, currentRoom)
   }
 
   socket.join(roomTitle)
+  sendUserCount(io, ns.endpoint, roomTitle)
   onJoin()
 
   socket.once('user-count', (userCountCb) => {
@@ -58,6 +60,28 @@ function joinRoom(io, socket, ns, roomTitle, onJoin) {
 
 /**
  * @param {Server} io
+ * @param {Socket} socket
+ * @param {Namespace} ns
+ * @param {import('../../declarations').IUserMessage} msg
+ */
+function onMessage(io, socket, ns, msg) {
+  const { name, email, text } = msg
+  const avatar = gravatar(email)
+  const time = Date.now()
+
+  /** @type {import('../../declarations').IChatMessage} */
+  const message = { name, text, time, avatar }
+  const currentRoom = getCurrentRoom(socket)
+  const room = ns.findRoom(currentRoom)
+
+  if (room) {
+    ns.findRoom(currentRoom).addMessage(message)
+    io.of(ns.endpoint).to(currentRoom).emit('message', message)
+  }
+}
+
+/**
+ * @param {Server} io
  * @param {Namespace} ns
  */
 function initNamespace(io, ns) {
@@ -65,6 +89,7 @@ function initNamespace(io, ns) {
     console.log('namespace connection:', socket.id)
     socket.emit('rooms', ns.rooms)
     socket.on('join-room', joinRoom.bind(null, io, socket, ns))
+    socket.on('message', onMessage.bind(null, io, socket, ns))
     socket.on('disconnect', disconnect.bind(null, io, socket, ns))
   })
 }
