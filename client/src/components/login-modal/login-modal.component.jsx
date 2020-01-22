@@ -21,8 +21,8 @@ const LoginModal = ({ setUser }) => {
 
   // Set state from local storage.
   useEffect(() => {
-    setName(localStorage.getItem('name'))
-    setEmail(localStorage.getItem('email'))
+    setName(localStorage.getItem('name') || '')
+    setEmail(localStorage.getItem('email') || '')
   }, [])
 
   // Update local storage when name changes.
