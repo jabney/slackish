@@ -18,10 +18,11 @@ const App = ({ updateNamespaces }) => {
    */
   const initSocket = () => {
     const socket = io()
-
     socket.on('namespaces', updateNamespaces)
     return () => socket.disconnect()
   }
+
+  // Initialization.
   useEffect(initSocket, [])
 
   return <>
