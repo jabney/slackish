@@ -43,7 +43,7 @@ const namespace = (state = null, action) => {
       return { ...state, history: action.payload }
     }
     case ADD_MESSAGE: {
-      click.play()
+      click.play().catch(() => {})
       return { ...state, history: [...state.history, action.payload] }
     }
     default: {
