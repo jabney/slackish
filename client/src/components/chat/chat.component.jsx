@@ -35,17 +35,25 @@ const Chat = ({ user, namespace, sendMessage }) => {
    */
   const messageKey = (m) => `${m.name}:${m.time}`
 
-  if (!namespace || !namespace.currentRoom) {
+  if (!namespace) {
     return null
   }
 
   return <div className="Chat">
     <div className="header">
-      <h2>#{namespace.currentRoom}</h2>
-      <span className='users'>
-        <UserIcon className='icon' />
-        {namespace.users}
-      </span>
+      {
+        typeof namespace.currentRoom === 'string' ? (
+          <>
+            <h2>#{namespace.currentRoom}</h2>
+            <span className='users'>
+              <UserIcon className='icon' />
+              {namespace.users}
+            </span>
+          </>
+        ) : (
+          <p>Select a room to begin chatting</p>
+        )
+      }
     </div>
     <div className="body">
       <ul className="messages">
@@ -59,6 +67,7 @@ const Chat = ({ user, namespace, sendMessage }) => {
         <input type="text" placeholder="Enter chat text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
+          disabled={typeof namespace.currentRoom !== 'string'}
         />
         <input type="submit" />
       </form>
