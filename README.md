@@ -1,7 +1,10 @@
 # Slackish
 
+A full-stack, SocketIO chat application styled loosely after Slack, using React/Redux on the client and NodeJS/Express/SocketIO on the server, sending flux actions to the client in response to IO events on the server.
+
 
 ![slackish screenshot](https://raw.githubusercontent.com/jabney/slackish/master/meta/images/slackish.png "Slackish")
+[Slackish App on Heroku](https://slackish-app.herokuapp.com/)
 
 ## Version 2.1
 
