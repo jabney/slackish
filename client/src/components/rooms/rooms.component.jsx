@@ -16,16 +16,9 @@ const Rooms = ({ nsTitle, currentRoom, rooms, user, selectRoom }) => {
    * Select a start rooom if a current room is not selected.
    */
   const selectStartRoom = () => {
-    // Return early if the current room is set.
-    if (currentRoom != null) { return }
-
-    // If there are rooms, select one.
-    if (rooms.length > 0) {
-      // Only select a room if the user has been set.
-      if (user != null) {
-        selectRoom(rooms[0])
-      }
-    }
+    // Return early if no rooms or user.
+    if (currentRoom.length > 0 || rooms.length === 0 || user == null) { return }
+    selectRoom(rooms[0])
   }
 
   useEffect(selectStartRoom, [currentRoom, rooms, user])
@@ -49,7 +42,7 @@ const mapState = (state) => {
 
   return {
     nsTitle: namespace.title,
-    currentRoom: namespace.currentRoom,
+    currentRoom: namespace.currentRoom || '',
     rooms: namespace.rooms || [],
     user: state.user,
   }
