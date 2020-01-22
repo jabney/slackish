@@ -1,66 +1,109 @@
 {
   "namespaces": [
     {
-      "id": "wiki",
-      "title": "Wiki",
-      "img": "https://upload.wikimedia.org/wikipedia/en/thumb/8/80/Wikipedia-logo-v2.svg/103px-Wikipedia-logo-v2.svg.png",
+      "id": "code",
+      "title": "Code",
+      "img": "/namespace-icons/code-icon.png",
       "rooms": [
         {
-          "title": "New Articles",
+          "title": "JavaScript",
           "isPrivate": false
         },
         {
-          "title": "Editors",
-          "isPrivate": true
+          "title": "Python",
+          "isPrivate": false
         },
         {
-          "title": "Other",
+          "title": "Ruby",
+          "isPrivate": false
+        },
+        {
+          "title": "React",
+          "isPrivate": false
+        },
+        {
+          "title": "Angular",
+          "isPrivate": false
+        },
+        {
+          "title": "Vue",
           "isPrivate": false
         }
       ]
     },
     {
-      "id": "mozilla",
-      "title": "Mozilla",
-      "img": "https://www.mozilla.org/media/img/logos/firefox/logo-quantum.9c5e96634f92.png",
+      "id": "games",
+      "title": "Games",
+      "img": "/namespace-icons/games-icon.png",
       "rooms": [
         {
-          "title": "Firefox",
+          "title": "Fortnite",
           "isPrivate": false
         },
         {
-          "title": "SeaMonkey",
+          "title": "Call of Duty",
           "isPrivate": false
         },
         {
-          "title": "SpiderMonkey",
+          "title": "Agar",
           "isPrivate": false
         },
         {
-          "title": "Rust",
+          "title": "Slither",
           "isPrivate": false
         }
       ]
     },
     {
-      "id": "linux",
-      "title": "Linux",
-      "img": "https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png",
+      "id": "editors",
+      "title": "Editors",
+      "img": "/namespace-icons/text-icon.png",
       "rooms": [
         {
-          "title": "Debian",
+          "title": "Sublime Text",
           "isPrivate": false
         },
         {
-          "title": "Red Hat",
+          "title": "VS Code",
           "isPrivate": false
         },
         {
-          "title": "MacOs",
+          "title": "Atom",
           "isPrivate": false
         },
         {
-          "title": "Kernel Development",
+          "title": "Brackets",
+          "isPrivate": false
+        },
+        {
+          "title": "TextMate",
+          "isPrivate": false
+        }
+      ]
+    },
+    {
+      "id": "funny",
+      "title": "Funny",
+      "img": "/namespace-icons/funny-icon.png",
+      "rooms": [
+        {
+          "title": "Jokes",
+          "isPrivate": false
+        },
+        {
+          "title": "Pranks",
+          "isPrivate": false
+        },
+        {
+          "title": "Scare Cam",
+          "isPrivate": false
+        },
+        {
+          "title": "Shower Thoughts",
+          "isPrivate": false
+        },
+        {
+          "title": "Memes",
           "isPrivate": false
         }
       ]
