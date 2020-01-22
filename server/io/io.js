@@ -1,9 +1,12 @@
-const { namespaces } = require('../services/namespaces')
+const logger = require('../config/logger')
 const Namespace = require('../models/namespace')
 const getCurrentRoom = require('./get-current-room')
 const sendUserCount = require('./send-user-count')
 const getUserCount = require('./get-user-count')
 const gravatar = require('../lib/gravatar')
+const { namespaces } = require('../services/namespaces')
+
+const debug = logger('io')
 
 /**
  * @typedef {import('socket.io').Server} Server
@@ -74,9 +77,9 @@ function onMessage(io, socket, ns, msg) {
   /** @type {import('../../declarations').IChatMessage} */
   const message = { name, text, time, avatar }
   const currentRoom = getCurrentRoom(socket)
-  const room = ns.findRoom(currentRoom)
+  const nsRoom = ns.findRoom(currentRoom)
 
-  if (room) {
+  if (nsRoom) {
     ns.findRoom(currentRoom).addMessage(message)
     io.of(ns.endpoint).to(currentRoom).emit('message', message)
   }
@@ -88,7 +91,7 @@ function onMessage(io, socket, ns, msg) {
  */
 function initNamespace(io, ns) {
   io.of(ns.endpoint).on('connect', (socket) => {
-    console.log('namespace connection:', socket.id)
+    debug('namespace connection:', socket.id)
     socket.emit('rooms', ns.rooms)
     socket.on('join-room', joinRoom.bind(null, io, socket, ns))
     socket.on('message', onMessage.bind(null, io, socket, ns))
@@ -105,9 +108,9 @@ async function init(io) {
   nss.forEach(ns => initNamespace(io, ns))
 
   io.on('connect', (socket) => {
-    console.log('connect:', socket.id)
+    debug('connect:', socket.id)
     socket.emit('namespaces', nss)
-    socket.on('disconnect', () => console.log('disconnect:', socket.id))
+    socket.on('disconnect', () => debug('disconnect:', socket.id))
   })
 }
 
