@@ -7,7 +7,7 @@ import RoomItem from '../room-item/room-item.component'
 import './rooms.component.scss'
 
 const Rooms = ({ namespace, selectRoom }) => {
-  const selected = (room) => room.title === namespace.room
+  const selected = (room) => room.title === namespace.currentRoom
 
   return <div className="Rooms">
     <h3>{namespace.title || 'Rooms'}</h3>

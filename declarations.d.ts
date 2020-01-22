@@ -34,14 +34,14 @@ export interface IUser {
 
 export interface INamespace extends INsData {
   rooms: IRoom[]
-  room: string
+  currentRoom: string
   users: number
   history: IChatMessage[]
   socket: SocketIOClient.Socket
 }
 
 type ActionType = 'update-namespaces'|'update-rooms'|'add-message'|'set-user'
-  |'set-socket'|'set-namespace'|'select-room'|'set-room-count'|'set-room-history'
+  |'set-namespace'|'set-room'|'set-room-count'|'set-room-history'
 
 export interface Action<T> {
   type: ActionType,
@@ -49,7 +49,7 @@ export interface Action<T> {
 }
 
 export interface Store {
-  namespaces: INamespace[],
+  namespaces: INsData[],
   namespace: INamespace,
   user: IUser,
 }

@@ -9,7 +9,8 @@ const getUserCount = require('./get-user-count')
  */
 function sendUserCount(io, endpoint, roomTitle) {
   getUserCount(io, endpoint, roomTitle, (userCount) => {
-    io.of(endpoint).in(roomTitle).emit('room-user-count', userCount)
+    const action = { type: 'set-room-count', payload: userCount }
+    io.of(endpoint).in(roomTitle).emit('actions', [action])
   })
 }
 

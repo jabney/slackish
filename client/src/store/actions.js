@@ -2,7 +2,8 @@ import io from 'socket.io-client'
 
 /**
  * @typedef {import('../../../declarations').Store} Store
- * @typedef {import('../../../declarations').INsData} Namespace
+ * @typedef {import('../../../declarations').INsData} NsData
+ * @typedef {import('../../../declarations').INamespace} Namespace
  * @typedef {import('../../../declarations').IRoom} Room
  * @typedef {import('../../../declarations').IChatMessage} ChatMessage
  * @typedef {import('../../../declarations').IUserMessage} UserMessage
@@ -20,31 +21,25 @@ import io from 'socket.io-client'
  * @typedef {import('redux-thunk').ThunkAction<void, Store, void, A>} ThunkAction
  */
 
+// Client actions.
 export const UPDATE_NAMESPACES = 'update-namespaces'
-export const UPDATE_ROOMS = 'update-rooms'
-export const ADD_MESSAGE = 'add-message'
 export const SET_USER = 'set-user'
 export const SET_NAMESPACE = 'set-namespace'
-export const SELECT_ROOM = 'select-room'
+
+// Server actions.
+export const UPDATE_ROOMS = 'update-rooms'
+export const ADD_MESSAGE = 'add-message'
+export const SET_ROOM = 'set-room'
 export const SET_ROOM_COUNT = 'set-room-count'
 export const SET_ROOM_HISTORY = 'set-room-history'
 
 /**
- * @param {Namespace[]} namespaces
+ * @param {NsData[]} namespaces
  *
- * @returns {Action<Namespace[]>}
+ * @returns {Action<NsData[]>}
  */
 export const updateNamespaces = (namespaces) => {
   return { type: UPDATE_NAMESPACES, payload: namespaces }
-}
-
-/**
- * @param {Room[]} rooms
- *
- * @returns {Action<Room[]>}
- */
-export const updateRooms = (rooms) => {
-  return { type: UPDATE_ROOMS, payload: rooms }
 }
 
 /**
@@ -57,24 +52,39 @@ export const setUser = (user) => {
 }
 
 /**
- * @param {Namespace} ns
+ * @param {NsData} ns
  *
- * @returns {ThunkAction<Action<Namespace>>}
+ * @returns {ThunkAction<Action<NsData>>}
  */
 export const selectNamespace = (ns) => (dispatch, getState) => {
-  const { namespace } = getState()
+  const { namespace: currentNs } = getState()
 
-  if (namespace) {
-    if (namespace.endpoint === ns.endpoint) { return }
-    namespace.socket.disconnect()
+  if (currentNs) {
+    if (currentNs.endpoint === ns.endpoint) { return }
+    currentNs.socket.disconnect()
   }
 
   const socket = io('/' + ns.endpoint)
 
-  socket.once('rooms', (rooms) => {
-    const newNs = { ...ns, rooms: rooms, room: null, users: 0, socket }
-    dispatch({ type: SET_NAMESPACE, payload: newNs })
+  socket.on('actions', (actions) => {
+    actions.forEach(dispatch)
   })
+
+  /**
+   * Create a new namespace object.
+   *
+   * @type {Namespace}
+   */
+  const namespace = {
+    ...ns,
+    rooms: [],
+    currentRoom: null,
+    users: 0,
+    history: [],
+    socket,
+  }
+
+  dispatch({ type: SET_NAMESPACE, payload: namespace })
 }
 
 /**
@@ -84,40 +94,11 @@ export const selectNamespace = (ns) => (dispatch, getState) => {
  */
 export const selectRoom = (room) => (dispatch, getState) => {
   const { namespace } = getState()
-  const { socket, room: currentRoom } = namespace
+  const { socket, currentRoom } = namespace
 
   if (room.title === currentRoom) { return }
 
-  socket.emit('join-room', room.title, () => {
-    /**
-     * This user-count acknowledgement assures we don't miss a
-     * user count message.
-     */
-    socket.emit('user-count', (userCount) => {
-      dispatch({ type: SET_ROOM_COUNT, payload: userCount })
-    })
-
-    socket.emit('room-history', (history) => {
-      dispatch({ type: SET_ROOM_HISTORY, payload: history })
-    })
-
-    const onUserCount = (userCount) => {
-      dispatch({ type: SET_ROOM_COUNT, payload: userCount })
-    }
-    socket.on('room-user-count', onUserCount)
-
-    const onMessage = (msg) => {
-      dispatch({ type: ADD_MESSAGE, payload: msg })
-    }
-    socket.on('message', onMessage)
-
-    socket.once('leave-room', () => {
-      socket.off('room-user-count', onUserCount)
-      socket.off('message', onMessage)
-    })
-
-    dispatch({ type: SELECT_ROOM, payload: room.title })
-  })
+  socket.emit('join-room', room.title)
 }
 
 /**

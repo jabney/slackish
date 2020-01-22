@@ -2,7 +2,6 @@ const logger = require('../config/logger')
 const Namespace = require('../models/namespace')
 const getCurrentRoom = require('./get-current-room')
 const sendUserCount = require('./send-user-count')
-const getUserCount = require('./get-user-count')
 const gravatar = require('../lib/gravatar')
 const { namespaces } = require('../services/namespaces')
 
@@ -32,57 +31,62 @@ function disconnect(io, socket, ns) {
  * @param {Server} io
  * @param {Socket} socket
  * @param {Namespace} ns
- * @param {string} roomTitle
+ * @param {import('../../declarations').IUserMessage} msg
  */
-function joinRoom(io, socket, ns, roomTitle, onJoin) {
-  const currentRoom = getCurrentRoom(socket)
+function onMessage(io, socket, ns, msg) {
+  const { name, email, text } = msg
 
-  if (currentRoom) {
-    socket.leave(currentRoom)
-    socket.emit('leave-room')
-    sendUserCount(io, ns.endpoint, currentRoom)
+  /**
+   * Construct the message object.
+   *
+   * @type {import('../../declarations').IChatMessage}
+   */
+  const message = {
+    name,
+    text,
+    time: Date.now(),
+    avatar: gravatar(email)
   }
 
-  socket.join(roomTitle)
-  sendUserCount(io, ns.endpoint, roomTitle)
-  onJoin()
+  // Get the current room title and object.
+  const currentRoomTitle = getCurrentRoom(socket)
+  const room = ns.findRoom(currentRoomTitle)
 
-  socket.once('user-count', (userCountCb) => {
-    getUserCount(io, ns.endpoint, roomTitle, userCountCb)
-  })
+  // Add the message to the room's message history.
+  room.addMessage(message)
 
-  socket.once('room-history', (historyCb) => {
-    const room = ns.findRoom(roomTitle)
-    if (room) {
-      historyCb(room.history)
-    } else {
-      historyCb([])
-    }
-  })
-
-  sendUserCount(io, ns.endpoint, roomTitle)
+  // Send the message to all clients in the current room.
+  const action = { type: 'add-message', payload: message }
+  io.of(ns.endpoint).to(currentRoomTitle).emit('actions', [action])
 }
 
 /**
  * @param {Server} io
  * @param {Socket} socket
  * @param {Namespace} ns
- * @param {import('../../declarations').IUserMessage} msg
+ * @param {string} roomTitle
  */
-function onMessage(io, socket, ns, msg) {
-  const { name, email, text } = msg
-  const avatar = gravatar(email)
-  const time = Date.now()
+function joinRoom(io, socket, ns, roomTitle) {
+  const currentRoomTitle = getCurrentRoom(socket)
 
-  /** @type {import('../../declarations').IChatMessage} */
-  const message = { name, text, time, avatar }
-  const currentRoom = getCurrentRoom(socket)
-  const nsRoom = ns.findRoom(currentRoom)
-
-  if (nsRoom) {
-    ns.findRoom(currentRoom).addMessage(message)
-    io.of(ns.endpoint).to(currentRoom).emit('message', message)
+  // If the user is in a room, leave the room and notify other clients.
+  if (currentRoomTitle) {
+    socket.leave(currentRoomTitle)
+    sendUserCount(io, ns.endpoint, currentRoomTitle)
   }
+
+  // Join the room and notify all clients of the new room count.
+  socket.join(roomTitle)
+  sendUserCount(io, ns.endpoint, roomTitle)
+
+  // Get the namespace room object.
+  const room = ns.findRoom(roomTitle) || { history: [] }
+
+  // Update the client.
+  socket.emit('actions', [
+    { type: 'set-room', payload: roomTitle },
+    { type: 'set-room-history', payload: room.history },
+  ])
 }
 
 /**
@@ -92,7 +96,7 @@ function onMessage(io, socket, ns, msg) {
 function initNamespace(io, ns) {
   io.of(ns.endpoint).on('connect', (socket) => {
     debug('namespace connection:', socket.id)
-    socket.emit('rooms', ns.rooms)
+    socket.emit('actions', [{ type: 'update-rooms', payload: ns.rooms }])
     socket.on('join-room', joinRoom.bind(null, io, socket, ns))
     socket.on('message', onMessage.bind(null, io, socket, ns))
     socket.on('disconnect', disconnect.bind(null, io, socket, ns))

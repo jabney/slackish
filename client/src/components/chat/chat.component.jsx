@@ -11,7 +11,6 @@ import './chat.component.scss'
  */
 const Chat = ({ user, namespace, sendMessage }) => {
   const [value, setValue] = useState('')
-  const messages = namespace && namespace.history || []
 
   /**
    * @param {React.FormEvent} e
@@ -35,13 +34,13 @@ const Chat = ({ user, namespace, sendMessage }) => {
    */
   const messageKey = (m) => `${m.name}:${m.time}`
 
-  if (!namespace || !namespace.room) {
+  if (!namespace || !namespace.currentRoom) {
     return null
   }
 
   return <div className="Chat">
     <div className="header">
-      <h2>#{namespace.room}</h2>
+      <h2>#{namespace.currentRoom}</h2>
       <span className='users'>
         <UserIcon className='icon' />
         {namespace.users}
@@ -50,7 +49,7 @@ const Chat = ({ user, namespace, sendMessage }) => {
     <div className="body">
       <ul className="messages">
         {
-          messages.map(msg => <ChatMessage key={messageKey(msg)} msg={msg} />)
+          namespace.history.map(msg => <ChatMessage key={messageKey(msg)} msg={msg} />)
         }
       </ul>
     </div>

@@ -1,9 +1,10 @@
 import {
   SET_NAMESPACE,
-  SELECT_ROOM,
+  SET_ROOM,
   SET_ROOM_COUNT,
   SET_ROOM_HISTORY,
   ADD_MESSAGE,
+  UPDATE_ROOMS,
 } from '../actions'
 
 /**
@@ -23,8 +24,11 @@ const namespace = (state = null, action) => {
     case SET_NAMESPACE: {
       return action.payload
     }
-    case SELECT_ROOM: {
-      return { ...state, room: action.payload }
+    case UPDATE_ROOMS: {
+      return { ...state, rooms: action.payload }
+    }
+    case SET_ROOM: {
+      return { ...state, currentRoom: action.payload }
     }
     case SET_ROOM_COUNT: {
       return { ...state, users: action.payload }
