@@ -7,7 +7,7 @@ import NamespaceItem from '../namespace-item/namespace-item.component'
 import './namespaces.component.scss'
 
 /**
- *
+ * Display namespaces to join.
  */
 const Namespaces = ({ namespaces, namespace, selectNamespace }) => {
   const selected = (ns) => ns.endpoint === namespace.endpoint

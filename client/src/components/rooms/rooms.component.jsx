@@ -6,6 +6,9 @@ import RoomItem from '../room-item/room-item.component'
 
 import './rooms.component.scss'
 
+/**
+ * @type {React.FunctionComponent}
+ */
 const Rooms = ({ namespace, selectRoom }) => {
   const selected = (room) => room.title === namespace.currentRoom
 

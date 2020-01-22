@@ -16,6 +16,7 @@ const debug = logger('io')
  */
 
 /**
+ * Disconnect from an IO namespace.
  *
  * @param {Server} io
  * @param {Socket} socket
@@ -28,6 +29,8 @@ function disconnect(io, socket, ns) {
 }
 
 /**
+ * Handle chat message construction and delivery.
+ *
  * @param {Server} io
  * @param {Socket} socket
  * @param {Namespace} ns
@@ -61,6 +64,8 @@ function onMessage(io, socket, ns, msg) {
 }
 
 /**
+ * Handle a join room request from the client.
+ *
  * @param {Server} io
  * @param {Socket} socket
  * @param {Namespace} ns
@@ -90,20 +95,27 @@ function joinRoom(io, socket, ns, roomTitle) {
 }
 
 /**
+ * Initialize a namespace to receive connections.
+ *
  * @param {Server} io
  * @param {Namespace} ns
  */
 function initNamespace(io, ns) {
   io.of(ns.endpoint).on('connect', (socket) => {
     debug('namespace connection:', socket.id)
+    // Send current ns room data to the client.
     socket.emit('actions', [{ type: 'update-rooms', payload: ns.rooms }])
+    // Listen for client join room requests.
     socket.on('join-room', joinRoom.bind(null, io, socket, ns))
+    // Listen for client chat message events.
     socket.on('message', onMessage.bind(null, io, socket, ns))
+    // Perform cleanup actions on socket disconnect.
     socket.on('disconnect', disconnect.bind(null, io, socket, ns))
   })
 }
 
 /**
+ * Initialize IO.
  *
  * @param {SocketIO.Server} io
  */
@@ -113,7 +125,9 @@ async function init(io) {
 
   io.on('connect', (socket) => {
     debug('connect:', socket.id)
+    // Send namespace data to the client.
     socket.emit('namespaces', nss)
+    // Monitor for socket disconnect.
     socket.on('disconnect', () => debug('disconnect:', socket.id))
   })
 }

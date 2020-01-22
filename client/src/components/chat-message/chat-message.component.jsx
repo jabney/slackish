@@ -5,8 +5,13 @@ import './chat-message.component.scss'
  * @type {import('react').FunctionComponent}
  */
 const ChatMessage = ({ msg }) => {
+  /**
+   * Format datetime value.
+   *
+   * @param {number} epochMs
+   */
+  const fmtTime = (epochMs) => new Date(epochMs).toLocaleTimeString()
 
-  const fmtTime = (dateStr) => new Date(dateStr).toLocaleTimeString()
   return <li className="ChatMessage">
     <div className='avatar'>
       <img src={msg.avatar} alt={`${msg.name} avatar`} />

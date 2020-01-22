@@ -34,6 +34,8 @@ export const SET_ROOM_COUNT = 'set-room-count'
 export const SET_ROOM_HISTORY = 'set-room-history'
 
 /**
+ * Update namespaces from the server.
+ *
  * @param {NsData[]} namespaces
  *
  * @returns {Action<NsData[]>}
@@ -43,6 +45,8 @@ export const updateNamespaces = (namespaces) => {
 }
 
 /**
+ * Set the current chat user.
+ *
  * @param {User} user
  *
  * @returns {Action<User>}
@@ -52,6 +56,8 @@ export const setUser = (user) => {
 }
 
 /**
+ * Connect to an IO namespace.
+ *
  * @param {NsData} ns
  *
  * @returns {ThunkAction<Action<NsData>>}
@@ -88,6 +94,8 @@ export const selectNamespace = (ns) => (dispatch, getState) => {
 }
 
 /**
+ * Inform the server to join a room.
+ *
  * @param {Room} room
  *
  * @returns {ThunkAction<Action<any>>}
@@ -102,6 +110,8 @@ export const selectRoom = (room) => (dispatch, getState) => {
 }
 
 /**
+ * Send a chat message to the server.
+ *
  * @param {UserMessage} msg
  *
  * @returns {ThunkAction<Action<UserMessage>>}

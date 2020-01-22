@@ -11,9 +11,11 @@ import './login-modal.component.scss'
 const LoginModal = ({ setUser }) => {
   // Show/hide the modal.
   const [showModal, setShowModal] = useState(true)
+
   // User name and email address.
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+
   // Incomplete form error message.
   const [showError, setShowError] = useState(false)
 
@@ -53,7 +55,7 @@ const LoginModal = ({ setUser }) => {
   // *** DEBUG ***
   // *** DEBUG ***
   // *** DEBUG ***
-  useEffect(onClose, [name, email])
+  // useEffect(onClose, [name, email])
 
   return <Modal show={showModal} onHide={onClose} className='LoginModal'>
     <Modal.Header closeButton>
@@ -93,10 +95,8 @@ const LoginModal = ({ setUser }) => {
   </Modal>
 }
 
-const mapState = (state) => ({})
-
 const mapDispatch = (dispatch) => ({
   setUser: (user) => dispatch(setUser(user)),
 })
 
-export default connect(mapState, mapDispatch)(LoginModal)
+export default connect(null, mapDispatch)(LoginModal)

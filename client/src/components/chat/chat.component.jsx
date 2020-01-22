@@ -20,6 +20,7 @@ const Chat = ({ user, namespace, sendMessage }) => {
     if (value.length === 0) { return }
     setValue('')
 
+    // Dispatch chat message to the server.
     sendMessage({
       name: user.name,
       email: user.email,

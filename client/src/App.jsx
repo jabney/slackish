@@ -14,7 +14,7 @@ import './App.scss'
 
 const App = ({ updateNamespaces }) => {
   /**
-   * Listen for namespaces and dispatch on receive.
+   * Initialize IO socket and listen for namespaces from the server.
    */
   const initSocket = () => {
     const socket = io()
@@ -42,10 +42,8 @@ const App = ({ updateNamespaces }) => {
   </>
 }
 
-const mapState = (state) => ({})
-
 const mapDispatch = (dispatch) => ({
   updateNamespaces: (nss) => dispatch(updateNamespaces(nss)),
 })
 
-export default connect(mapState, mapDispatch)(App)
+export default connect(null, mapDispatch)(App)
