@@ -2,35 +2,17 @@ import io from 'socket.io-client'
 
 /**
  * @typedef {import('../../../declarations').Store} Store
+ * @typedef {import('../../../declarations').INsData} Namespace
+ * @typedef {import('../../../declarations').IRoom} Room
+ * @typedef {import('../../../declarations').IChatMessage} ChatMessage
+ * @typedef {import('../../../declarations').IUserMessage} UserMessage
+ * @typedef {import('../../../declarations').IUser} User
+ * @typedef {SocketIOClient.Socket} Socket
  */
 
 /**
  * @template T
  * @typedef {import('../../../declarations').Action} Action
- */
-
-/**
- * @typedef {import('../../../declarations').INsData} Namespace
- */
-
-/**
- * @typedef {import('../../../declarations').IRoom} Room
- */
-
-/**
- * @typedef {import('../../../declarations').IChatMessage} ChatMessage
- */
-
-/**
- * @typedef {import('../../../declarations').IUserMessage} UserMessage
- */
-
-/**
- * @typedef {import('../../../declarations').IUser} User
- */
-
-/**
- * @typedef {SocketIOClient.Socket} Socket
  */
 
 /**
