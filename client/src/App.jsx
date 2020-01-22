@@ -16,13 +16,13 @@ const App = ({ updateNamespaces }) => {
   /**
    * Listen for namespaces and dispatch on receive.
    */
-  const namespaces = () => {
+  const initSocket = () => {
     const socket = io()
 
     socket.on('namespaces', updateNamespaces)
     return () => socket.disconnect()
   }
-  useEffect(namespaces, [])
+  useEffect(initSocket, [])
 
   return <>
     <LoginModal />
