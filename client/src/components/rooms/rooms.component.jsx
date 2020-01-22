@@ -16,8 +16,14 @@ const Rooms = ({ namespace, user, selectRoom }) => {
    * Select a start rooom if a current room is not selected.
    */
   const selectStartRoom = () => {
-    if (namespace.currentRoom == null && Array.isArray(namespace.rooms)) {
-      if (namespace.rooms.length > 0 && user != null) {
+    // Return early if the current room is set.
+    if (namespace.currentRoom != null) { return }
+
+    const { rooms } = namespace
+    // If there are rooms, select one.
+    if (Array.isArray(rooms) && rooms.length > 0) {
+      // Only select a room if the user has been set.
+      if (user != null) {
         selectRoom(namespace.rooms[0])
       }
     }
