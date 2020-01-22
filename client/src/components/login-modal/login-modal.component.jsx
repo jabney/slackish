@@ -53,7 +53,7 @@ const LoginModal = ({ setUser }) => {
   // *** DEBUG ***
   // *** DEBUG ***
   // *** DEBUG ***
-  useEffect(onClose, [name, email])
+  // useEffect(onClose, [name, email])
 
   return <Modal show={showModal} onHide={onClose} className='LoginModal'>
     <Modal.Header closeButton>
