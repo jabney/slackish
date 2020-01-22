@@ -7,6 +7,12 @@ import {
   UPDATE_ROOMS,
 } from '../actions'
 
+const click = new Audio('sounds/click.mp3')
+click.volume = 0.25
+
+const alarm = new Audio('sounds/alarm.mp3')
+alarm.volume = 0.5
+
 /**
  * @typedef {import('../../../../declarations').INamespace} Namespace
  */
@@ -37,6 +43,7 @@ const namespace = (state = null, action) => {
       return { ...state, history: action.payload }
     }
     case ADD_MESSAGE: {
+      click.play()
       return { ...state, history: [...state.history, action.payload] }
     }
     default: {
