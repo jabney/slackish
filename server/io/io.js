@@ -22,7 +22,7 @@ const debug = logger('io')
  * @param {Socket} socket
  * @param {Namespace} ns
  */
-function disconnect(io, socket, ns) {
+function disconnecting(io, socket, ns) {
   const currentRoom = getCurrentRoom(socket)
   socket.leave(currentRoom)
   sendUserCount(io, ns.endpoint, currentRoom)
@@ -102,7 +102,7 @@ function joinRoom(io, socket, ns, roomTitle) {
  */
 function initNamespace(io, ns) {
   io.of(ns.endpoint).on('connect', (socket) => {
-    debug('namespace connection:', socket.id)
+    debug('namespace connect:', socket.id)
     // Send current ns room data to the client.
     socket.emit('actions', [{ type: 'update-rooms', payload: ns.rooms }])
     // Listen for client join room requests.
@@ -110,7 +110,8 @@ function initNamespace(io, ns) {
     // Listen for client chat message events.
     socket.on('message', onMessage.bind(null, io, socket, ns))
     // Perform cleanup actions on socket disconnect.
-    socket.on('disconnect', disconnect.bind(null, io, socket, ns))
+    socket.on('disconnecting', disconnecting.bind(null, io, socket, ns))
+    socket.on('disconnect', () => debug('namespace disconnect:', socket.id))
   })
 }
 
