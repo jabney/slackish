@@ -107,6 +107,37 @@
           "isPrivate": false
         }
       ]
+    },
+    {
+      "id": "philosophy",
+      "title": "Philosophy",
+      "img": "/namespace-icons/philo-icon.png",
+      "rooms": [
+        {
+          "title": "Epistemology",
+          "isPrivate": false
+        },
+        {
+          "title": "Ontology",
+          "isPrivate": false
+        },
+        {
+          "title": "Logic",
+          "isPrivate": false
+        },
+        {
+          "title": "Theology",
+          "isPrivate": false
+        },
+        {
+          "title": "Ethics",
+          "isPrivate": false
+        },
+        {
+          "title": "Esthetics",
+          "isPrivate": false
+        }
+      ]
     }
   ]
 }
