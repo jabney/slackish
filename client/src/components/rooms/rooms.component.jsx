@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { selectRoom } from '../../store/actions'
 
@@ -9,8 +9,21 @@ import './rooms.component.scss'
 /**
  * @type {React.FunctionComponent}
  */
-const Rooms = ({ namespace, selectRoom }) => {
+const Rooms = ({ namespace, user, selectRoom }) => {
   const selected = (room) => room.title === namespace.currentRoom
+
+  /**
+   * Select a start rooom if a current room is not selected.
+   */
+  const selectStartRoom = () => {
+    if (namespace.currentRoom == null && Array.isArray(namespace.rooms)) {
+      if (namespace.rooms.length > 0 && user != null) {
+        selectRoom(namespace.rooms[0])
+      }
+    }
+  }
+
+  useEffect(selectStartRoom, [namespace, user])
 
   return <div className="Rooms">
     <h3>{namespace.title || 'Rooms'}</h3>
@@ -27,8 +40,10 @@ const Rooms = ({ namespace, selectRoom }) => {
 }
 
 const mapState = (state) => {
-  const namespace = state.namespace || { rooms: [] }
-  return { namespace }
+  return {
+    namespace: state.namespace || { rooms: [] },
+    user: state.user,
+  }
 }
 
 const mapDispatch = (dispatch) => ({

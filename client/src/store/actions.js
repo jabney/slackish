@@ -38,10 +38,11 @@ export const SET_ROOM_HISTORY = 'set-room-history'
  *
  * @param {NsData[]} namespaces
  *
- * @returns {Action<NsData[]>}
+ * @returns {ThunkAction<Action<NsData>>}
  */
-export const updateNamespaces = (namespaces) => {
-  return { type: UPDATE_NAMESPACES, payload: namespaces }
+export const updateNamespaces = (namespaces) => (dispatch) => {
+  dispatch({ type: UPDATE_NAMESPACES, payload: namespaces })
+  dispatch(selectNamespace(namespaces[0]))
 }
 
 /**
@@ -63,7 +64,7 @@ export const setUser = (user) => {
  * @returns {ThunkAction<Action<NsData>>}
  */
 export const selectNamespace = (ns) => (dispatch, getState) => {
-  const { namespace: currentNs } = getState()
+  const { namespace: currentNs, } = getState()
 
   if (currentNs) {
     if (currentNs.endpoint === ns.endpoint) { return }
