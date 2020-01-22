@@ -8,3 +8,7 @@ node_modules/
 # Temp
 temp/
 tmp/
+
+# Environment
+.env
+.env.*
