@@ -1,6 +1,33 @@
 {
   "namespaces": [
     {
+      "id": "general",
+      "title": "General",
+      "img": "/namespace-icons/general-icon.png",
+      "rooms": [
+        {
+          "title": "Introductions",
+          "isPrivate": false
+        },
+        {
+          "title": "Interests",
+          "isPrivate": false
+        },
+        {
+          "title": "Random",
+          "isPrivate": false
+        },
+        {
+          "title": "Music",
+          "isPrivate": false
+        },
+        {
+          "title": "Movies & TV",
+          "isPrivate": false
+        }
+      ]
+    },
+    {
       "id": "code",
       "title": "Code",
       "img": "/namespace-icons/code-icon.png",
