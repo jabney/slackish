@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
 import { sendMessage } from '../../store/actions'
 import { ReactComponent as UserIcon } from 'bootstrap-icons/icons/person-fill.svg'
@@ -11,6 +11,15 @@ import './chat.component.scss'
  */
 const Chat = ({ user, namespace, sendMessage }) => {
   const [value, setValue] = useState('')
+  const msgElement = useRef(null)
+
+  useEffect(() => {
+    const { current } = msgElement
+
+    if (current != null) {
+      current.scrollTo(0, current.scrollHeight)
+    }
+  }, [namespace])
 
   /**
    * @param {React.FormEvent} e
@@ -56,7 +65,7 @@ const Chat = ({ user, namespace, sendMessage }) => {
       }
     </div>
     <div className="body">
-      <ul className="messages">
+      <ul className="messages" ref={msgElement}>
         {
           namespace.history.map(msg => <ChatMessage key={messageKey(msg)} msg={msg} />)
         }
