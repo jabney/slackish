@@ -20,7 +20,9 @@ const gravatar = require('../lib/gravatar')
  * @param {Namespace} ns
  */
 function disconnect(io, socket, ns) {
-  console.log('disconnected:', socket.id)
+  const currentRoom = getCurrentRoom(socket)
+  socket.leave(currentRoom)
+  sendUserCount(io, ns.endpoint, currentRoom)
 }
 
 /**
