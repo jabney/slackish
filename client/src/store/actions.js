@@ -86,7 +86,7 @@ export const selectNamespace = (ns) => (dispatch, getState) => {
     ...ns,
     rooms: [],
     currentRoom: null,
-    users: 0,
+    numUsers: 0,
     history: [],
     socket,
   }

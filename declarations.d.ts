@@ -35,7 +35,7 @@ export interface IUser {
 export interface INamespace extends INsData {
   rooms: IRoom[]
   currentRoom: string
-  users: number
+  numUsers: number
   history: IChatMessage[]
   socket: SocketIOClient.Socket
 }

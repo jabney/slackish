@@ -37,7 +37,7 @@ const namespace = (state = null, action) => {
       return { ...state, currentRoom: action.payload }
     }
     case SET_ROOM_COUNT: {
-      return { ...state, users: action.payload }
+      return { ...state, numUsers: action.payload }
     }
     case SET_ROOM_HISTORY: {
       return { ...state, history: action.payload }

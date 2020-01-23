@@ -56,7 +56,7 @@ const Chat = ({ user, namespace, sendMessage }) => {
             <h2>#{namespace.currentRoom}</h2>
             <span className='users'>
               <UserIcon className='icon' />
-              {namespace.users}
+              {namespace.numUsers}
             </span>
           </>
         ) : (
