@@ -1,5 +1,9 @@
 const Namespace = require('./namespace')
 
+/**
+ * @typedef {import('../../declarations').IUserInfo} IUserInfo
+ */
+
 let nextId = 0
 
 class Room {
@@ -42,7 +46,6 @@ class Room {
       title: this.title,
       isPrivate: this.isPrivate,
       nsTitle: this.namespace.title,
-      history: this.history,
     }
   }
 }
