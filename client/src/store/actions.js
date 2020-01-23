@@ -33,6 +33,12 @@ export const SET_ROOM = 'set-room'
 export const SET_ROOM_COUNT = 'set-room-count'
 export const SET_ROOM_HISTORY = 'set-room-history'
 
+const click = new Audio('sounds/click.mp3')
+click.volume = 0.25
+
+const alarm = new Audio('sounds/alarm.mp3')
+alarm.volume = 0.5
+
 /**
  * Update namespaces from the server.
  *
@@ -74,7 +80,16 @@ export const selectNamespace = (ns) => (dispatch, getState) => {
   const socket = io('/' + ns.endpoint)
 
   socket.on('actions', (actions) => {
-    actions.forEach(dispatch)
+
+    actions.forEach((action) => {
+      console.log('ACTION:', action)
+      // Listen for add message actions from the server.
+      if (action.type === ADD_MESSAGE) {
+        click.play().catch(() => {})
+      }
+      // Dispatch action.
+      dispatch(action)
+    })
   })
 
   /**
