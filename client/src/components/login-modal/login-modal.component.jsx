@@ -43,7 +43,9 @@ const LoginModal = ({ setUser }) => {
   /**
    * Handle close button clicks.
    */
-  const onClose = () => {
+  const onClose = (e) => {
+    if (e) { e.preventDefault() }
+
     if (formIsValid) {
       setUser({ name, email })
       setShowModal(false)
@@ -63,17 +65,20 @@ const LoginModal = ({ setUser }) => {
     </Modal.Header>
 
     <Modal.Body>
-      <Form.Group>
-        <Form.Control type="text" placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <Form.Label></Form.Label>
-        <Form.Control type="email" placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </Form.Group>
+      <Form onSubmit={onClose}>
+        <Form.Group>
+          <Form.Control type="text" placeholder="Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Form.Label></Form.Label>
+          <Form.Control type="email" placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Form.Control type="submit" style={{display: 'none'}} />
+        </Form.Group>
+      </Form>
     </Modal.Body>
 
     <Modal.Footer>
