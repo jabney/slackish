@@ -82,7 +82,6 @@ export const selectNamespace = (ns) => (dispatch, getState) => {
   socket.on('actions', (actions) => {
 
     actions.forEach((action) => {
-      console.log('ACTION:', action)
       // Listen for add message actions from the server.
       if (action.type === ADD_MESSAGE) {
         click.play().catch(() => {})
