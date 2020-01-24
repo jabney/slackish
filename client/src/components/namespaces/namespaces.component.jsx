@@ -12,7 +12,7 @@ import './namespaces.component.scss'
 const Namespaces = ({ namespaces, namespace, selectNamespace }) => {
   const selected = (ns) => ns.endpoint === namespace.endpoint
 
-  return <div className="Namespaces">
+  return <ul className="Namespaces">
     {
       namespaces.map(ns => <NamespaceItem key={ns.endpoint}
         ns={ns}
@@ -20,7 +20,7 @@ const Namespaces = ({ namespaces, namespace, selectNamespace }) => {
         onClick={selectNamespace}
       />)
     }
-  </div>
+  </ul>
 }
 
 const mapState = (state) => ({

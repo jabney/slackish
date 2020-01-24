@@ -13,14 +13,14 @@
       flex-direction: column;
       justify-content: flex-start;
       align-items: center;
-      min-width: 54px;
+      min-width: 58px;
       max-width: 80px;
       background-color: #202229;
     }
 
     .room {
       flex: 1 1 1/4%;
-      min-width: 142px;
+      min-width: 160px;
       max-width: 280px;
       background-color: #404249;
     }
@@ -42,4 +42,35 @@
 .no-gutter {
   padding: 0;
   margin: 0;
+}
+
+@media (max-width: 575px) {
+  .App {
+
+    .frame {
+      flex-direction: column;
+
+      .namespace {
+        flex: 0 1 auto;
+        min-width: 0;
+        max-width: 100%;
+      }
+
+      .room {
+        flex: 0 1 auto;
+        min-width: 0;
+        max-width: 100%;
+      }
+    }
+
+    .NamespaceItem {
+      display: inline-block;
+      margin-left: 6px;
+    }
+
+    .RoomItem {
+      display: inline-block;
+      margin-right: 12px;
+    }
+  }
 }

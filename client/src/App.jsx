@@ -29,13 +29,13 @@ const App = ({ updateNamespaces }) => {
     <LoginModal />
     <Container fluid className='App no-gutter'>
       <Row className="frame no-gutter">
-        <Col xs={1} className='namespace no-gutter'>
+        <Col sm={1} className='namespace no-gutter'>
           <Namespaces />
         </Col>
-        <Col xs={3} className='room'>
+        <Col sm={3} className='room'>
           <Rooms />
         </Col>
-        <Col xs={8} className='chat'>
+        <Col sm={8} className='chat'>
           <Chat />
         </Col>
       </Row>
