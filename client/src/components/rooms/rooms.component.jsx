@@ -21,9 +21,12 @@ const Rooms = ({ nsTitle, currentRoom, rooms, user, selectRoom }) => {
   const selectStartRoom = () => {
     // Return early if no rooms or user.
     if (currentRoom.length > 0 || rooms.length === 0 || user == null) { return }
-    selectRoom(rooms[0])
+    // Select the first room in the list.
+    const [firstRoom] = rooms
+    selectRoom(firstRoom)
   }
 
+  // Select a start room when all conditions are met.
   useEffect(selectStartRoom, [currentRoom, rooms, user])
 
   return <div className="Rooms">
