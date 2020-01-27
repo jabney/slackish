@@ -7,7 +7,7 @@ import './room-item.component.scss'
  * @type {React.FunctionComponent}
  */
 const RoomItem = ({ room, selected, onClick }) => (
-  <li className={'RoomItem' + (selected ? ' selected' : '')} onClick={() => onClick(room)}>
+  <li className={'RoomItem' + (selected(room) ? ' selected' : '')} onClick={() => onClick(room)}>
     { room.isPrivate ? <Lock className='icon' /> : <Chat className='icon' /> }
     <span className='title'>{room.title}</span>
   </li>

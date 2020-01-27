@@ -10,13 +10,16 @@ import './namespaces.component.scss'
  * Display namespaces to join.
  */
 const Namespaces = ({ namespaces, namespace, selectNamespace }) => {
+  /**
+   * @param {import('../../../../declarations').INsData} ns
+   */
   const selected = (ns) => ns.endpoint === namespace.endpoint
 
   return <ul className="Namespaces">
     {
       namespaces.map(ns => <NamespaceItem key={ns.endpoint}
         ns={ns}
-        selected={selected(ns)}
+        selected={selected}
         onClick={selectNamespace}
       />)
     }

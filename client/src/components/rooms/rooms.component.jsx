@@ -10,6 +10,9 @@ import './rooms.component.scss'
  * @type {React.FunctionComponent}
  */
 const Rooms = ({ nsTitle, currentRoom, rooms, user, selectRoom }) => {
+  /**
+   * @param {import('../../../../declarations').IRoom} room
+   */
   const selected = (room) => room.title === currentRoom
 
   /**
@@ -29,7 +32,7 @@ const Rooms = ({ nsTitle, currentRoom, rooms, user, selectRoom }) => {
       {
         rooms.map(({ id, ...room }) => <RoomItem key={id}
           room={room}
-          selected={selected(room)}
+          selected={selected}
           onClick={selectRoom}
         />)
       }
