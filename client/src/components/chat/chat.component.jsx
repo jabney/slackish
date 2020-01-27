@@ -11,11 +11,12 @@ import './chat.component.scss'
  */
 const Chat = ({ user, namespace, sendMessage }) => {
   const [value, setValue] = useState('')
-  const msgElement = useRef(null)
+  const msgList = useRef(null)
 
   useEffect(() => {
-    const { current } = msgElement
+    const { current } = msgList
 
+    // Scroll to the bottom of the message list.
     if (current != null) {
       current.scrollTo(0, current.scrollHeight)
     }
@@ -65,7 +66,7 @@ const Chat = ({ user, namespace, sendMessage }) => {
       }
     </div>
     <div className="body">
-      <ul className="messages" ref={msgElement}>
+      <ul className="messages" ref={msgList}>
         {
           namespace.history.map(msg => <ChatMessage key={messageKey(msg)} msg={msg} />)
         }
