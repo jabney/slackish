@@ -23,11 +23,15 @@ const Chat = ({ user, namespace, sendMessage }) => {
   }, [namespace])
 
   /**
+   * Send a message.
+   *
    * @param {React.FormEvent} e
    */
   const onSubmit = (e) => {
     e.preventDefault()
+    // Don't send zero-length messages.
     if (value.length === 0) { return }
+    // Clear the input box.
     setValue('')
 
     // Dispatch chat message to the server.
