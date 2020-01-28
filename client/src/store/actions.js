@@ -69,7 +69,9 @@ const serverAction = (state, action) => {
 
     if(numUsers >= namespace.numUsers) {
       // User joined.
-      sounds.enter.play().catch(() => {})
+      if (numUsers > 1) {
+        sounds.enter.play().catch(() => {})
+      }
     } else {
       // User left.
       sounds.exit.play().catch(() => {})
