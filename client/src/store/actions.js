@@ -112,12 +112,17 @@ export const selectNamespace = (ns) => (dispatch, getState) => {
   const { namespace: currentNs } = getState()
 
   if (currentNs) {
+    // If this enpoint is already selected, return early.
     if (currentNs.endpoint === ns.endpoint) { return }
+
+    // Disconnect from the current namespace socket.
     currentNs.socket.disconnect()
   }
 
+  // Connect to the given namespace.
   const socket = io('/' + ns.endpoint)
 
+  // Handle actions coming from the server.
   socket.on('actions', (actions) => {
     const state = getState()
     actions.forEach(serverAction.bind(null, state))
