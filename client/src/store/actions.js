@@ -21,6 +21,11 @@ import io from 'socket.io-client'
  * @typedef {import('redux-thunk').ThunkAction<void, Store, void, A>} ThunkAction
  */
 
+/**
+ * @template A
+ * @typedef {import('redux-thunk').ThunkDispatch<Store, void, A>} ThunkDispatch
+ */
+
 // Client actions.
 export const UPDATE_NAMESPACES = 'update-namespaces'
 export const SET_USER = 'set-user'
@@ -33,11 +38,45 @@ export const SET_ROOM = 'set-room'
 export const SET_ROOM_COUNT = 'set-room-count'
 export const SET_ROOM_HISTORY = 'set-room-history'
 
-const click = new Audio('sounds/click.mp3')
-click.volume = 0.25
+// Chat action sounds.
+const sounds = {
+  message: new Audio('sounds/click.mp3'),
+  enter: new Audio('sounds/alarm.mp3'),
+  exit: new Audio('sounds/blooper.mp3'),
+}
 
-const alarm = new Audio('sounds/alarm.mp3')
-alarm.volume = 0.5
+// Reduce sound volume.
+Object.values(sounds).forEach(s => s.volume = 0.1)
+
+/**
+ * Dispatch actions coming from the server.
+ *
+ * @param {Store} state
+ * @param {Action<any>} action
+ *
+ * @returns {void}
+ */
+const serverAction = (state, action) => {
+  const { namespace } = state
+
+    // Listen for add message actions from the server.
+  if (action.type === ADD_MESSAGE) {
+    sounds.message.play().catch(() => {})
+  }
+
+  // Listen for set room count actions.
+  if (action.type === SET_ROOM_COUNT) {
+    const numUsers = action.payload
+
+    if(numUsers >= namespace.numUsers) {
+      // User joined.
+      sounds.enter.play().catch(() => {})
+    } else {
+      // User left.
+      sounds.exit.play().catch(() => {})
+    }
+  }
+}
 
 /**
  * Update namespaces from the server.
@@ -70,7 +109,7 @@ export const setUser = (user) => {
  * @returns {ThunkAction<Action<NsData>>}
  */
 export const selectNamespace = (ns) => (dispatch, getState) => {
-  const { namespace: currentNs, } = getState()
+  const { namespace: currentNs } = getState()
 
   if (currentNs) {
     if (currentNs.endpoint === ns.endpoint) { return }
@@ -80,15 +119,9 @@ export const selectNamespace = (ns) => (dispatch, getState) => {
   const socket = io('/' + ns.endpoint)
 
   socket.on('actions', (actions) => {
-
-    actions.forEach((action) => {
-      // Listen for add message actions from the server.
-      if (action.type === ADD_MESSAGE) {
-        click.play().catch(() => {})
-      }
-      // Dispatch action.
-      dispatch(action)
-    })
+    const state = getState()
+    actions.forEach(serverAction.bind(null, state))
+    actions.forEach(dispatch)
   })
 
   /**
@@ -119,9 +152,10 @@ export const selectRoom = (room) => (dispatch, getState) => {
   const { namespace } = getState()
   const { socket, currentRoom } = namespace
 
-  if (room.title === currentRoom) { return }
-
-  socket.emit('join-room', room.title)
+  // If we are not already in the room, join.
+  if (room.title !== currentRoom) {
+    socket.emit('join-room', room.title)
+  }
 }
 
 /**
