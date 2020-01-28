@@ -57,8 +57,6 @@ Object.values(sounds).forEach(s => s.volume = 0.1)
  * @returns {void}
  */
 const serverAction = (state, action) => {
-  const { namespace } = state
-
     // Listen for add message actions from the server.
   if (action.type === ADD_MESSAGE) {
     sounds.message.play().catch(() => {})
@@ -66,6 +64,7 @@ const serverAction = (state, action) => {
 
   // Listen for set room count actions.
   if (action.type === SET_ROOM_COUNT) {
+    const { namespace } = state
     const numUsers = action.payload
 
     if(numUsers >= namespace.numUsers) {
