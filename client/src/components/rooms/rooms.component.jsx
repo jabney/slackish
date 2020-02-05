@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
-import { selectRoom } from '../../store/actions'
+import { selectRoom } from 'store/actions'
 
-import RoomItem from '../room-item/room-item.component'
+import RoomItem from 'components/room-item'
 
 import './rooms.component.scss'
 

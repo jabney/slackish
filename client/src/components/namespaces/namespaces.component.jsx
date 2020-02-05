@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { selectNamespace } from '../../store/actions'
+import { selectNamespace } from 'store/actions'
 
-import NamespaceItem from '../namespace-item/namespace-item.component'
+import NamespaceItem from 'components/namespace-item'
 
 import './namespaces.component.scss'
 

@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { connect } from 'react-redux'
-import { sendMessage } from '../../store/actions'
+import { sendMessage } from 'store/actions'
 import { ReactComponent as UserIcon } from 'bootstrap-icons/icons/person-fill.svg'
-import ChatMessage from '../chat-message/chat-message.component'
+import ChatMessage from 'components/chat-message'
 
 import './chat.component.scss'
 

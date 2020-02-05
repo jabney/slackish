@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
-import { setUser } from '../../store/actions'
+import { setUser } from 'store/actions'
 import { connect } from 'react-redux'
 
 import './login-modal.component.scss'
